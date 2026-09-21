@@ -156,7 +156,7 @@ After `waiting_client_reload`, reload Codex and ask:
 
 > Call Babel Content Downloader's babel_content_check. Check the local runtime, browser connection and media dependencies, and tell me which functions are ready.
 
-There should be eight `babel_content_*` tools. Browser-based work needs its target extension instance connected and not paused. A URL document check may return `ready_http` with `browser_required: false`; this means HTTP extraction can be attempted, not that the network request has already succeeded.
+There should be ten MCP tools, including nine `babel_content_*` tools. `babel_content_get_asr_guide` is read-only Agent-side ASR guidance and does not run transcription. Browser-based work needs its target extension instance connected and not paused. A URL document check may return `ready_http` with `browser_required: false`; this means HTTP extraction can be attempted, not that the network request has already succeeded.
 
 For first-time Claude Code setup, replace `codex` with `claude` in step 3, then run `install-client-config claude`. To add Claude Code to an existing runtime:
 

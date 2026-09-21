@@ -89,6 +89,11 @@ function captureRequestForRun(job: JobRecord): CollectRequest {
   return { ...job.request, browser: { ...job.request.browser, tab_strategy: 'auto' } };
 }
 
+/** The raw URL is available only for the current in-memory run. */
+function taskAccessUrl(job: JobRecord): string | undefined {
+  return job.request.target.type === 'url' ? job.request.target.url : undefined;
+}
+
 function mediaGroups(snapshot: ContentSnapshot, kind: 'video' | 'audio'): { id: string; assets: SourceAsset[]; suffix: string }[] {
   let assets = allAssets(snapshot).filter(a => a.role === kind && a.availability !== 'not_present');
   if (kind === 'audio' && !assets.length) assets = allAssets(snapshot).filter(a => a.role === 'video' && a.availability !== 'not_present');
@@ -448,7 +453,7 @@ export function createCollectionExecutor(options: CollectionOptions): Collection
       else {
         await save('finalizing');
         const documentPath = join(root, 'content.md');
-        await atomicText(documentPath, renderDocument(sanitizeSnapshot(snapshot), artifacts, root), artifacts.find(a => a.path === documentPath));
+        await atomicText(documentPath, renderDocument(sanitizeSnapshot(snapshot), artifacts, root, { accessUrl: taskAccessUrl(job) }), artifacts.find(a => a.path === documentPath));
         artifacts = artifacts.filter(a => a.role !== 'text' && a.path !== documentPath);
         artifacts.push({ role: 'text', path: documentPath, media_type: 'text/markdown', ...await hashFile(documentPath) });
         completed.add('text'); delete failed.text;
@@ -461,7 +466,7 @@ export function createCollectionExecutor(options: CollectionOptions): Collection
       if (deliverables.length) {
         await save('finalizing');
         const entryPath = join(root, 'content.md');
-        await atomicText(entryPath, renderBundleEntry(sanitizeSnapshot(snapshot), deliverables, root), previousEntry);
+        await atomicText(entryPath, renderBundleEntry(sanitizeSnapshot(snapshot), deliverables, root, { accessUrl: taskAccessUrl(job) }), previousEntry);
         artifacts.push({ role: 'entry', path: entryPath, media_type: 'text/markdown', ...await hashFile(entryPath) });
       }
     }

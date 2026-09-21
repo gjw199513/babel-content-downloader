@@ -380,7 +380,7 @@ describe("MCP HTTP", () => {
     } finally { await new Promise<void>(resolve => server.close(() => resolve())); }
   });
 
-  it("requires a client token and exposes the eight scoped tools", async () => {
+  it("requires a client token and exposes the scoped tools", async () => {
     const dir = await temp();
     const config: RuntimeConfig = { schema_version: 1, port: 0, state_dir: dir, allowed_extension_ids: [], clients: [{ id: "alice", token: "secret-token", output_roots: [dir] }], fixture_origins: [] };
     const bridge = new BrowserBridge(config, registry);
@@ -404,8 +404,17 @@ describe("MCP HTTP", () => {
       const payload = response.headers.get("content-type")?.includes("text/event-stream") ? responseText.split(/\r?\n/).find((line) => line.startsWith("data: "))?.slice(6) : responseText;
       const value = JSON.parse(payload ?? "null") as { result?: { tools?: { name: string }[] } };
       expect(value.result?.tools?.map((tool) => tool.name)).toEqual([
-        "babel_content_check", "babel_content_collect", "babel_content_job_get", "babel_content_job_resume", "babel_content_job_cancel", "babel_content_jobs_list", "babel_content_browser_observe", "babel_content_browser_act",
+        "update_mcp", "babel_content_get_asr_guide", "babel_content_check", "babel_content_collect", "babel_content_job_get", "babel_content_job_resume", "babel_content_job_cancel", "babel_content_jobs_list", "babel_content_browser_observe", "babel_content_browser_act",
       ]);
+      const guideResponse = await fetch(endpoint, { method: "POST", headers: { authorization: "Bearer secret-token", "content-type": "application/json", accept: "application/json, text/event-stream" },
+        body: JSON.stringify({ jsonrpc: "2.0", id: 3, method: "tools/call", params: { name: "babel_content_get_asr_guide", arguments: { format: "structured" } } }) });
+      expect(guideResponse.status).toBe(200);
+      const guideRaw = await guideResponse.text();
+      const guideMessage = guideResponse.headers.get("content-type")?.includes("text/event-stream") ? guideRaw.split(/\r?\n/).find(line => line.startsWith("data: "))?.slice(6) : guideRaw;
+      const guide = JSON.parse(guideMessage ?? "null").result.structuredContent as { architecture?: { executor?: string; mcpExecutesProcessing?: boolean }; model?: { revision?: string }; localFiles?: { expected?: string[] } };
+      expect(guide.architecture).toMatchObject({ executor: "agent", mcpExecutesProcessing: false });
+      expect(guide.model?.revision).toBe("2365baeacb507f821a0c8120fcee3d484dba7a07");
+      expect(guide.localFiles?.expected).toContain("transcription/raw-transcript.txt");
       for (const [url, browserRequired] of [["https://example.org/articles/current", false], ["https://youtube.com/watch?v=sample", true]] as const) {
         const checked = await fetch(endpoint, { method: "POST", headers: { authorization: "Bearer secret-token", "content-type": "application/json", accept: "application/json, text/event-stream" },
           body: JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: "babel_content_check", arguments: { target: { type: "url", url }, save_as: "document" } } }) });

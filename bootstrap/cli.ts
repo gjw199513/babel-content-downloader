@@ -10,14 +10,14 @@ import { BrowserBridge } from "../runtime/bridge/server.js";
 import { probeMediaTool, type MediaToolId } from "../runtime/diagnostics/dependencies.js";
 import { JobManager } from "../runtime/jobs/manager.js";
 import { createRuntimeHttpServer, listenRuntime } from "../runtime/mcp/http.js";
-import { proxyMcpStdio } from "../runtime/mcp/stdio-proxy.js";
+import { proxyMcpStdio, type JsonRpcMessage } from "../runtime/mcp/stdio-proxy.js";
 import { configPath, loadConfig, newClient, saveConfig } from "../runtime/policy/config.js";
 import { JobStore } from "../runtime/storage/job-store.js";
 
 async function serve(): Promise<void> {
   const config = await loadConfig();
   const registry = createAdapterRegistry({ fixture_origins: config.fixture_origins });
-  const bridge = new BrowserBridge(config, registry);
+  const bridge = new BrowserBridge(config, registry, { enforceVersionMatch: true });
   const store = new JobStore(join(config.state_dir, "jobs"));
   const executor = createCollectionExecutor({ bridge, registry, config, mediaTools: { ytDlp: config.media_tools?.yt_dlp, ffmpeg: config.media_tools?.ffmpeg, ffprobe: config.media_tools?.ffprobe } });
   const jobs = new JobManager(store, executor, config.clients, 2, { checkpointRetentionDays: config.checkpoint_retention_days, logRetentionDays: config.log_retention_days });
@@ -30,7 +30,41 @@ async function serve(): Promise<void> {
 async function mcpProxy(clientId: string): Promise<void> {
   const config = await loadConfig();
   const input = createInterface({ input: process.stdin, crlfDelay: Infinity });
-  await proxyMcpStdio({ config, clientId, lines: input, write: (line) => process.stdout.write(line + "\n"), report: (message) => console.error(message) });
+  await proxyMcpStdio({
+    config,
+    clientId,
+    lines: input,
+    write: (line) => process.stdout.write(line + "\n"),
+    report: (message) => console.error(message),
+    localRequest: async (message: JsonRpcMessage) => {
+      if (message.method !== "tools/call" || !message.params || typeof message.params !== "object") return undefined;
+      const params = message.params as { name?: unknown; arguments?: unknown };
+      if (params.name !== "update_mcp") return undefined;
+      if (message.id === undefined) return undefined;
+      const options = { config, configPath: configPath() };
+      const before = await runtimeServiceStatus(options);
+      const after = await startRuntimeService(options);
+      const value = {
+        updated: before.restart_required,
+        action: before.restart_required ? "runtime_restarted" : "already_current",
+        installed_version: after.installed_version,
+        applied_version: after.applied_version,
+        running_version: after.running_version,
+        restart_required: after.restart_required,
+        state: after.state,
+        health: after.health,
+        next_action: after.next_action,
+      };
+      return JSON.stringify({
+        jsonrpc: "2.0",
+        id: message.id,
+        result: {
+          content: [{ type: "text", text: JSON.stringify(value) }],
+          structuredContent: value,
+        },
+      });
+    },
+  });
 }
 
 async function main(args: string[]): Promise<void> {
@@ -41,17 +75,27 @@ async function main(args: string[]): Promise<void> {
     if (!id) throw new Error("Usage: babel-content-downloader mcp <client-id>");
     return await mcpProxy(id);
   }
+  if (command === "asr") {
+    const { ASR_CLI_USAGE, asrCliSummary, runAsrCli } = await import("../runtime/asr/cli.js");
+    if (rest.includes("--help") || rest.includes("-h")) {
+      console.log(ASR_CLI_USAGE);
+      return;
+    }
+    console.log(JSON.stringify(asrCliSummary(await runAsrCli(rest)), null, 2));
+    return;
+  }
   if (command === "init") {
     const config = await loadConfig();
     await saveConfig(config);
     console.log("Babel Content Downloader runtime config initialized.");
     return;
   }
-  if (["runtime-install", "runtime-start", "runtime-status", "runtime-stop", "runtime-uninstall"].includes(command ?? "")) {
+  if (["runtime-install", "runtime-update", "runtime-start", "runtime-status", "runtime-stop", "runtime-uninstall"].includes(command ?? "")) {
     if (rest.length !== 0) throw new Error(`Usage: babel-content-downloader ${command}`);
     const config = await loadConfig();
     const options = { config, configPath: configPath() };
     const status = command === "runtime-install" ? await installRuntimeService(options)
+      : command === "runtime-update" ? await startRuntimeService(options)
       : command === "runtime-start" ? await startRuntimeService(options)
         : command === "runtime-stop" ? await stopRuntimeService(options)
           : command === "runtime-uninstall" ? await uninstallRuntimeService(options)
@@ -151,7 +195,7 @@ async function main(args: string[]): Promise<void> {
     console.log(`Configured ${id} at ${verified.path} (${verified.version}). Restart the runtime to apply configuration.`);
     return;
   }
-  throw new Error("Usage: babel-content-downloader <init|runtime-install|runtime-start|runtime-status|runtime-stop|runtime-uninstall|allow-extension|revoke-extension|add-client|remove-client|install-client-config|client-config-status|remove-client-config|add-fixture-origin|set-dns|set-retention|set-tool|serve|mcp>");
+  throw new Error("Usage: babel-content-downloader <init|runtime-install|runtime-update|runtime-start|runtime-status|runtime-stop|runtime-uninstall|allow-extension|revoke-extension|add-client|remove-client|install-client-config|client-config-status|remove-client-config|add-fixture-origin|set-dns|set-retention|set-tool|serve|mcp|asr>");
 }
 
 void main(process.argv.slice(2)).catch((error) => { console.error(error instanceof Error ? error.message : String(error)); process.exitCode = 1; });

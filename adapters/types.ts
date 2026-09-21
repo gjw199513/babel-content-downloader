@@ -78,6 +78,12 @@ export interface SelectorPlan {
   canonical: readonly string[];
   images: readonly string[];
   videos: readonly string[];
+  /**
+   * Adapter-owned fallback sources for players whose DOM media element only
+   * exposes a blob URL. The callback may inspect bounded page text through the
+   * reader, but it never evaluates page code or performs network access.
+   */
+  video_source_urls?: (reader: PageReader, root: PageNode) => readonly string[];
   audio: readonly string[];
   subtitles: readonly string[];
   cover: readonly string[];

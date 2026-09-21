@@ -100,7 +100,11 @@ interface ResolvedOptions {
 
 const MAX_COMMAND_OUTPUT = 262_144;
 const COMMAND_TIMEOUT_MS = 15_000;
-const READY_TIMEOUT_MS = 5_000;
+// Job-store recovery and launchd scheduling can take longer after a large
+// matrix run. Keep startup bounded, but do not boot out a service that is
+// already starting normally just because the original five-second window
+// elapsed.
+const READY_TIMEOUT_MS = 15_000;
 
 function sha256(value: string | Buffer): string {
   return createHash("sha256").update(value).digest("hex");

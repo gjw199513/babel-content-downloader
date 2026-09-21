@@ -9,6 +9,8 @@ import { JobManager } from "../jobs/manager.js";
 import { redactSensitiveText, redactUrl } from "../storage/job-store.js";
 import { summarizeJob } from "./presentation.js";
 import type { MediaToolPaths } from "../policy/config.js";
+import { PRODUCT_VERSION, VERSION_CONTROL_SCHEMA } from "../version.js";
+import { ASR_GUIDE, asrGuideMarkdown } from "../asr/guide.js";
 
 const url = z.url().refine((value) => /^https?:\/\//i.test(value), "Only HTTP and HTTPS targets are allowed");
 const targetSchema = z.discriminatedUnion("type", [
@@ -112,9 +114,40 @@ export interface McpServices { jobs: JobManager; bridge: BrowserBridge; registry
 /** A fresh MCP server is built per HTTP request, with shared jobs and bridge closed over. */
 export function makeMcpHandler(services: McpServices) {
   return createMcpHandler(({ authInfo }) => {
-    const server = new McpServer({ name: "babel-content-downloader", version: "0.1.26" });
+    const server = new McpServer({ name: "babel-content-downloader", version: PRODUCT_VERSION });
     const clientId = authInfo?.clientId;
     function requireClient(): string { if (!clientId) throw new Error("CLIENT_UNAUTHORIZED"); return clientId; }
+
+    server.registerTool("update_mcp", {
+      description: "Check the extension and local runtime package versions. The stdio MCP wrapper applies a matching runtime update without deleting pairing, jobs or saved files.",
+      inputSchema: z.object({}).strict(),
+    }, async () => {
+      const bridge = services.bridge.status();
+      const extensionVersions = bridge.instances.map((instance) => instance.version);
+      const compatible = extensionVersions.length === 0 || extensionVersions.every((version) => version === PRODUCT_VERSION);
+      const value = {
+        updated: false,
+        action: compatible ? "already_current" : "runtime_update_required",
+        schema_version: VERSION_CONTROL_SCHEMA,
+        mcp_version: PRODUCT_VERSION,
+        runtime_version: PRODUCT_VERSION,
+        extension_versions: extensionVersions,
+        compatible,
+        update_required: !compatible,
+        next_step: compatible
+          ? "No runtime update is required."
+          : "Call update_mcp again through the stdio MCP wrapper after installing the matching runtime package, then reload the existing extension card.",
+      };
+      return success(value, JSON.stringify(value));
+    });
+
+    server.registerTool("babel_content_get_asr_guide", {
+      description: "Read the Agent-side local ASR guide. This tool only returns the fixed model, file, security and output contract; it never downloads media, installs dependencies or runs ASR.",
+      inputSchema: z.strictObject({ format: z.enum(["structured", "markdown"]).default("structured") }),
+    }, async ({ format }) => {
+      const value = format === "markdown" ? { topic: ASR_GUIDE.topic, guide_markdown: asrGuideMarkdown() } : ASR_GUIDE;
+      return success(value, "ASR guide returned; processing remains the Agent's local responsibility.");
+    });
 
     server.registerTool("babel_content_check", {
       description: "Check runtime, paired browser, adapter registration and optional media dependencies without starting a download.",
@@ -126,7 +159,9 @@ export function makeMcpHandler(services: McpServices) {
         const directWeb = target ? shouldCaptureWebPage({ target, save_as, output: { directory: "" } }, registered) : false;
         const adapter = directWeb ? { id: "web_page", status: "experimental", validation_status: "unverified" } : registered;
         const bridgeStatus = services.bridge.status();
-        const result = { client_id: client, connection_state: directWeb ? "ready_http" : bridgeStatus.connected ? "connected" : "waiting_browser", browser_required: !directWeb, bridge: bridgeStatus, adapter: adapter ? { id: adapter.id, status: adapter.status, validation_status: adapter.validation_status ?? "unverified" } : null, dependencies: await checkDependencies(save_as, services.mediaTools), note: target?.type === "url" && !adapter ? "Target platform is not registered" : undefined };
+        const extensionVersions = bridgeStatus.instances.map((instance) => instance.version);
+        const compatible = extensionVersions.length === 0 || extensionVersions.every((version) => version === PRODUCT_VERSION);
+        const result = { client_id: client, connection_state: directWeb ? "ready_http" : bridgeStatus.connected ? "connected" : "waiting_browser", browser_required: !directWeb, bridge: bridgeStatus, version_control: { schema_version: VERSION_CONTROL_SCHEMA, mcp_version: PRODUCT_VERSION, runtime_version: PRODUCT_VERSION, extension_versions: extensionVersions, compatible, update_required: !compatible }, adapter: adapter ? { id: adapter.id, status: adapter.status, validation_status: adapter.validation_status ?? "unverified" } : null, dependencies: await checkDependencies(save_as, services.mediaTools), note: target?.type === "url" && !adapter ? "Target platform is not registered" : undefined };
         return success(result, "Runtime check complete; inspect structured status for browser, platform and dependencies.");
       } catch (error) { return failure(error); }
     });

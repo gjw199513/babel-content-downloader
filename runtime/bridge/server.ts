@@ -8,6 +8,7 @@ import { BRIDGE_PROTOCOL_VERSION } from "../../shared/bridge-protocol.js";
 import type { RuntimeConfig } from "../policy/config.js";
 import { requiresWebMediaHandling, shouldCaptureWebDocument, validateBrowserWebSnapshot, webPageIdentity } from "../web/http-capture.js";
 import { validateBridgeResponse } from "./validation.js";
+import { PRODUCT_VERSION } from "../version.js";
 
 interface Session {
   id: string;
@@ -105,15 +106,15 @@ export class BrowserBridge {
   private sessions = new Map<string, Session>();
   private pending = new Map<string, Pending>();
 
-  constructor(readonly config: RuntimeConfig, readonly registry: AdapterRegistry) {}
+  constructor(readonly config: RuntimeConfig, readonly registry: AdapterRegistry, readonly options: { enforceVersionMatch?: boolean } = {}) {}
 
-  status(): { connected: boolean; instances: { instance_ref: string; extension_id: string; version: string; connected: boolean; state: ConnectionState; paused: boolean; seconds_since_seen: number }[] } {
+  status(): { connected: boolean; runtime_version: string; instances: { instance_ref: string; extension_id: string; version: string; connected: boolean; state: ConnectionState; paused: boolean; seconds_since_seen: number; update_required: boolean }[] } {
     const now = Date.now();
     const instances = [...this.sessions.values()].map((session) => {
       const state = connectionState(session, now);
-      return { instance_ref: session.instanceId, extension_id: session.extensionId, version: session.extensionVersion, connected: state === "connected", state, paused: session.paused, seconds_since_seen: Math.max(0, Math.floor((now - session.lastSeen) / 1000)) };
+      return { instance_ref: session.instanceId, extension_id: session.extensionId, version: session.extensionVersion, connected: state === "connected", state, paused: session.paused, seconds_since_seen: Math.max(0, Math.floor((now - session.lastSeen) / 1000)), update_required: session.extensionVersion !== PRODUCT_VERSION };
     });
-    return { connected: instances.some((session) => session.connected), instances };
+    return { connected: instances.some((session) => session.connected), runtime_version: PRODUCT_VERSION, instances };
   }
 
   private choose(instanceRef?: string): Session {
@@ -126,6 +127,9 @@ export class BrowserBridge {
 
   private async command(jobId: string, instanceRef: string | undefined, request: CaptureRequest, signal: AbortSignal): Promise<BridgeResponse> {
     const session = this.choose(instanceRef);
+    if (this.options.enforceVersionMatch && session.extensionVersion !== PRODUCT_VERSION) {
+      throw new BridgeError("EXTENSION_UPDATE_REQUIRED", `Browser extension ${session.extensionVersion} does not match runtime ${PRODUCT_VERSION}; reload the existing extension card before continuing`, false);
+    }
     if (request.web_document) {
       const minimumPatch = request.target.type === "tab" ? 24 : 23;
       const version = /^(\d+)\.(\d+)\.(\d+)(?:\.\d+)?$/.exec(session.extensionVersion);
@@ -291,7 +295,7 @@ export class BrowserBridge {
         };
         for (const old of this.sessions.values()) if (old.instanceId === session.instanceId) this.revoke(old.id);
         this.sessions.set(session.id, session);
-        return send(res, 200, { version: BRIDGE_PROTOCOL_VERSION, session_id: session.id, token: session.token, poll_after_ms: 1000 });
+        return send(res, 200, { version: BRIDGE_PROTOCOL_VERSION, session_id: session.id, token: session.token, poll_after_ms: 1000, runtime_version: PRODUCT_VERSION, update_required: body.extension_version !== PRODUCT_VERSION });
       }
       const token = req.headers.authorization?.replace(/^Bearer /, "");
       const session = [...this.sessions.values()].find((s) => s.extensionId === extensionId && token && equalSecret(s.token, token));
@@ -305,7 +309,7 @@ export class BrowserBridge {
           // This is authenticated self-reported status metadata, not build-byte attestation.
           session.extensionVersion = poll.extension_version;
         }
-        const result: ExtensionPollResult = { version: 1, paused: session.paused, commands: session.paused ? [] : session.queue.splice(0, 4), poll_after_ms: 1000 };
+        const result: ExtensionPollResult = { version: 1, paused: session.paused, commands: session.paused ? [] : session.queue.splice(0, 4), poll_after_ms: 1000, runtime_version: PRODUCT_VERSION, update_required: session.extensionVersion !== PRODUCT_VERSION };
         return send(res, 200, result);
       }
       if (path === "/v1/bridge/respond") {

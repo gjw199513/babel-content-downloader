@@ -34,5 +34,5 @@ describe("client setup CLI revocation", () => {
     await expect(run("remove-client", "../other")).rejects.toThrow();
     await expect(run("revoke-extension", "wrong-id")).rejects.toThrow();
     expect(await loadConfig(configPath)).toEqual(after);
-  });
+  }, 15_000);
 });

@@ -1,4 +1,4 @@
-import type { AccessSignals, AllowedActions } from "../types.js";
+import type { AccessSignals, AllowedActions, PageNode, PageReader } from "../types.js";
 import {
   baselineCoverage,
   firstId,
@@ -20,6 +20,47 @@ const VIDEO_ACTIONS: AllowedActions = {
   play: ["video", ".bpx-player-video-wrap video", "[data-e2e='video-player'] video"],
   max_scroll_delta: 700,
 };
+
+/**
+ * XHS frequently hydrates the player with a blob URL and keeps the signed
+ * CDN rendition only in SSR state or an inline bootstrap script. Keep this
+ * fallback adapter-owned and narrow: read script text, decode the URL escape
+ * forms used by JSON/HTML, and accept only XHS video hosts and MP4-like paths.
+ * This mirrors the proven Open CLI fallback without evaluating page code.
+ */
+function xiaohongshuVideoSourceUrls(reader: PageReader, _root: PageNode): readonly string[] {
+  const candidates: string[] = [];
+  const seen = new Set<string>();
+  const add = (raw: string, originVideoKey = false): void => {
+    let value = raw.trim()
+      .replace(/\\u002f/gi, "/")
+      .replace(/\\u003a/gi, ":")
+      .replace(/\\u0026/gi, "&")
+      .replace(/\\\//g, "/")
+      .replace(/&amp;/gi, "&")
+      .replace(/[),\]}]+$/g, "");
+    if (originVideoKey && !/^https?:\/\//i.test(value)) value = `https://sns-video-bd.xhscdn.com/${value.replace(/^\/+/, "")}`;
+    if (!/^https?:\/\//i.test(value) || !/(?:xhscdn|xiaohongshu|rednote)/i.test(value) || !/\.mp4(?:[?#]|$)/i.test(value)) return;
+    if (seen.has(value)) return;
+    seen.add(value);
+    candidates.push(value);
+  };
+
+  for (const script of reader.select(["script"])) {
+    const text = reader.rawText?.(script) ?? reader.text(script);
+    if (!text) continue;
+    const normalized = text
+      .replace(/\\u002f/gi, "/")
+      .replace(/\\u003a/gi, ":")
+      .replace(/\\u0026/gi, "&")
+      .replace(/\\\//g, "/")
+      .replace(/&quot;/gi, '"');
+    for (const match of normalized.matchAll(/https?:\/\/[^"'\\\s]+/gi)) add(match[0]);
+    for (const match of normalized.matchAll(/(?:masterUrl|videoUrl|video_url)\s*["']?\s*:\s*["']([^"']+)["']/gi)) add(match[1]!);
+    for (const match of normalized.matchAll(/originVideoKey\s*["']?\s*:\s*["']([^"']+)["']/gi)) add(match[1]!, true);
+  }
+  return candidates.slice(0, 1);
+}
 
 const WECHAT_ACCESS: AccessSignals = {
   login_gates: ["#js_pc_qr_code", ".weui-desktop-wxpay-dialog", "[data-testid='login-gate']"],
@@ -49,7 +90,13 @@ export const DOMESTIC_SPECS: readonly PlatformSpec[] = [
         authors: ["#userPageContainer .username", "[data-testid='author-name']", ".author-wrapper .name"],
         published: ["time", ".date", "[data-testid='publish-time']"],
         images: [".swiper-slide img", ".note-slider img", "[data-testid='note-image'] img"],
-        videos: ["[data-testid='note-video'] video", ".note-video video"],
+        // XHS has used several player wrappers over time. The current public
+        // note page mounts a real <video> directly under the bounded note
+        // root, so keep the generic selector as the final compatibility path
+        // instead of requiring a wrapper class that is not part of the
+        // platform contract.
+        videos: ["[data-testid='note-video'] video", ".note-video video", "video"],
+        video_source_urls: xiaohongshuVideoSourceUrls,
         subtitles: ["video track[kind='captions']", "video track[kind='subtitles']"],
         cover: ["meta[property='og:image']", ".note-video poster"],
       }),

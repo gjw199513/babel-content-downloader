@@ -63,6 +63,7 @@ export function plan(overrides: Partial<SelectorPlan> & Pick<SelectorPlan, "root
     canonical: overrides.canonical ?? ["link[rel='canonical']"],
     images: overrides.images ?? EMPTY,
     videos: overrides.videos ?? EMPTY,
+    ...(overrides.video_source_urls ? { video_source_urls: overrides.video_source_urls } : {}),
     audio: overrides.audio ?? EMPTY,
     subtitles: overrides.subtitles ?? EMPTY,
     cover: overrides.cover ?? ["meta[property='og:image']"],

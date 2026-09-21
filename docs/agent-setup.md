@@ -72,7 +72,7 @@ For Codex:
 node "$BABEL_CLI" install-client-config codex
 ```
 
-The expected result is `waiting_client_reload`. Reload Codex, confirm that its actual tool list contains the eight `babel_content_*` tools, then call `babel_content_check` through that host. Confirm the specific browser instance is connected and not paused before declaring setup complete. An MCP config entry, CLI list result, launchd PID, or direct HTTP call alone is not this proof.
+The expected result is `waiting_client_reload`. Reload Codex, confirm that its actual tool list contains ten MCP tools, including nine `babel_content_*` tools, then call `babel_content_check` through that host. `babel_content_get_asr_guide` is read-only guidance; it does not run transcription. Confirm the specific browser instance is connected and not paused before declaring setup complete. An MCP config entry, CLI list result, launchd PID, or direct HTTP call alone is not this proof.
 
 For Claude Code, first create a separate `claude` client grant and use `install-client-config claude`. The implementation has isolated CLI fixtures, but a real Claude Code installation was not available in the recorded macOS preflight; keep that client marked pending until it is actually loaded and calls the tools.
 

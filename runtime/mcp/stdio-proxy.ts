@@ -3,7 +3,7 @@ import type { RuntimeConfig } from "../policy/config.js";
 type RequestId = string | number | null;
 type Fetcher = (input: string, init: RequestInit) => Promise<Response>;
 
-interface JsonRpcMessage {
+export interface JsonRpcMessage {
   jsonrpc?: unknown;
   id?: unknown;
   method?: unknown;
@@ -17,6 +17,8 @@ export interface StdioProxyOptions {
   write: (line: string) => void;
   report?: (message: string) => void;
   fetcher?: Fetcher;
+  /** Handles local lifecycle tools without forwarding them to the runtime HTTP process. */
+  localRequest?: (message: JsonRpcMessage) => Promise<string | undefined>;
 }
 
 function requestId(value: unknown): value is RequestId {
@@ -79,6 +81,19 @@ export async function proxyMcpStdio(options: StdioProxyOptions): Promise<void> {
     if (id !== undefined && controllers.has(key(id))) {
       options.write(error(id, -32600, "Duplicate in-flight request ID"));
       continue;
+    }
+    if (options.localRequest) {
+      try {
+        const localResponse = await options.localRequest(message);
+        if (localResponse !== undefined) {
+          options.write(localResponse);
+          continue;
+        }
+      } catch (caught) {
+        if (id !== undefined) options.write(error(id, -32603, caught instanceof Error ? caught.message : "Local MCP lifecycle operation failed"));
+        else options.report?.("Local MCP lifecycle operation failed");
+        continue;
+      }
     }
     const controller = new AbortController();
     if (id !== undefined) controllers.set(key(id), controller);

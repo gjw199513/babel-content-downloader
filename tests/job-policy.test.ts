@@ -155,6 +155,44 @@ describe("job execution policy", () => {
     expect(runs).toBe(2);
   });
 
+  it("retries a task tab that is still loading instead of treating readiness as a manual block", async () => {
+    const { output, store, clients } = await fixture();
+    let runs = 0;
+    const manager = new JobManager(store, { execute: async () => {
+      runs++;
+      if (runs === 1) throw { code: "TASK_TAB_NOT_READY", message: "The target tab is still loading", retryable: true };
+      return { status: "succeeded", completeness: { requested_components_complete: true, scope: "single_item" } };
+    } }, clients, 2, { retryBaseMs: 5 });
+    await manager.init();
+    const submitted = await manager.submit("alice", { target: { type: "url", url: "https://a.example/slow-page" }, output: { directory: output } });
+    const completed = await until(() => manager.get("alice", submitted.id), (job) => job?.status === "succeeded");
+
+    expect(completed?.attempts).toBe(2);
+    expect(completed?.automatic_retries).toBe(1);
+    expect(runs).toBe(2);
+  });
+
+  it("uses bounded browser-readiness windows for default content-script retries", async () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout", "Date"] });
+    vi.setSystemTime(new Date("2026-09-20T00:00:00.000Z"));
+    const { output, store, clients } = await fixture();
+    const manager = new JobManager(store, { execute: async () => {
+      throw { code: "CONTENT_SCRIPT_TIMEOUT", message: "The target page did not finish hydrating", retryable: true };
+    } }, clients);
+    await manager.init();
+    const submitted = await manager.submit("alice", { target: { type: "url", url: "https://a.example/heavy-page" }, output: { directory: output } });
+    const firstWait = await untilWithoutTimers(() => manager.get("alice", submitted.id), (job) => job?.status === "blocked" && Boolean(job.retry_at));
+    expect(Date.parse(firstWait!.retry_at!) - Date.now()).toBe(10_000);
+
+    await vi.advanceTimersByTimeAsync(10_000);
+    const secondWait = await untilWithoutTimers(() => manager.get("alice", submitted.id), (job) => job?.status === "blocked" && job.attempts === 2 && Boolean(job.retry_at));
+    expect(Date.parse(secondWait!.retry_at!) - Date.now()).toBe(30_000);
+
+    await vi.advanceTimersByTimeAsync(30_000);
+    const exhausted = await untilWithoutTimers(() => manager.get("alice", submitted.id), (job) => job?.status === "blocked" && job.attempts === 3 && !job.retry_at);
+    expect(exhausted?.automatic_retries).toBe(2);
+  });
+
   it("retries retryable adapter readiness drift on the same job and stops after the existing two-retry budget", async () => {
     const { output, store, clients } = await fixture();
     const delayedRuns: string[] = [];

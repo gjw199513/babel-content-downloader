@@ -445,7 +445,9 @@ describe("specific extraction families", () => {
       .add("#userPageContainer .username", [author], root)
       .add("time", [published], root)
       .add(".swiper-slide img", [firstImage, secondImage], root)
-      .add("[data-testid='note-video'] video", [video], root)
+      // The live XHS note page exposes the player as a direct <video> under
+      // the selected note root; keep this fixture aligned with that shape.
+      .add("video", [video], root)
       .add("video track[kind='captions']", [subtitle], root)
       .add("meta[property='og:image']", [cover]);
 
@@ -461,6 +463,32 @@ describe("specific extraction families", () => {
     ]);
     expect(snapshot.blocks.map(block => block.type)).toEqual(["heading", "paragraph", "image", "paragraph", "image", "video"]);
     expect(snapshot.completeness).toBe("unknown");
+  });
+
+  it("recovers an XHS video URL from inline SSR state when the player only exposes a blob URL", () => {
+    const title = node("state-title", "h1", "脚本视频笔记");
+    const author = node("state-author", "a", "小王");
+    const video = node("state-video", "video", "", { src: "blob:https://www.xiaohongshu.com/player" });
+    const body = node("state-body", "p", "视频正文");
+    const script = node(
+      "state-script",
+      "script",
+      `window.__INITIAL_STATE__={note:{video:{media:{stream:{h264:[{masterUrl:"https:\\/\\/sns-video-hw.xhscdn.com\\/state.mp4"}]}}}}}`,
+    );
+    const root = node("state-root", "div", "", {}, [title, author, body, video]);
+    const reader = new FixturePageReader("https://www.xiaohongshu.com/explore/state123", "脚本视频笔记")
+      .add("#noteContainer", [root])
+      .add("#detail-title", [title], root)
+      .add("#userPageContainer .username", [author], root)
+      .add("video", [video], root)
+      .add("script", [script]);
+
+    const snapshot = adapter("xiaohongshu").extract(reader);
+
+    expect(snapshot.assets.filter(asset => asset.role === "video")).toEqual([
+      expect.objectContaining({ url: "https://sns-video-hw.xhscdn.com/state.mp4", availability: "available" }),
+    ]);
+    expect(snapshot.blocks.some(block => block.type === "video")).toBe(true);
   });
 
   it("uses the observed Zhihu RichText body instead of its TOC wrapper and scopes metadata to the same article", () => {

@@ -52,4 +52,23 @@ describe('local content document rendering', () => {
     expect(document).toContain('- 显式列表');
     expect(document).toContain('1. 显式有序列表');
   });
+
+  it('keeps the public source URL safe while adding a local-only direct access link', () => {
+    const document = renderDocument(snapshot({
+      canonical_url: 'https://www.xiaohongshu.com/explore/abc123',
+      blocks: [{ type: 'paragraph', text: '正文' }],
+    }), [], '/tmp/babel-document', {
+      accessUrl: 'https://www.xiaohongshu.com/explore/abc123?xsec_token=short-lived-secret&xsec_source=pc_search',
+    });
+
+    expect(document).toContain('来源：<https://www.xiaohongshu.com/explore/abc123>');
+    expect(document).toContain('- 本次访问链接：<https://www.xiaohongshu.com/explore/abc123?xsec_token=short-lived-secret&xsec_source=pc_search>');
+    expect(document).toContain('仅限本机结果使用');
+  });
+
+  it('does not emit an unsafe non-http access target', () => {
+    const document = renderDocument(snapshot(), [], '/tmp/babel-document', { accessUrl: 'javascript:alert(1)' });
+    expect(document).not.toContain('javascript:');
+    expect(document).toContain('公开来源链接');
+  });
 });

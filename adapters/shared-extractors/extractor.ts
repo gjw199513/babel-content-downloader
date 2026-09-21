@@ -297,6 +297,27 @@ function assetCandidates(
   if (config.includeCover !== false) add("cover", selectorNodes(reader, adapter.rule.selectors.cover));
   add("image", selectorNodes(reader, adapter.rule.selectors.images, scope));
   add("video", selectorNodes(reader, adapter.rule.selectors.videos, scope));
+  for (const raw of adapter.rule.selectors.video_source_urls?.(reader, root) ?? []) {
+    const source = safeHttpUrl(raw, base);
+    if (!source) continue;
+    const sourceGroup = `video:${source.href}`;
+    if (seenSourceGroups.has(sourceGroup)) continue;
+    seenSourceGroups.add(sourceGroup);
+    const allowed = isAllowedAssetUrl(source, adapter.asset_hosts ?? [])
+      && (!adapter.asset_origins || adapter.asset_origins.includes(source.origin));
+    const asset: SourceAsset = {
+      id: `${config.assetIdPrefix ?? adapter.id}:video:${String(order).padStart(3, "0")}`,
+      role: "video",
+      url: source.href,
+      source_url: publicReferenceUrl(config.sourceUrl ?? base).href,
+      order,
+      availability: allowed ? "available" : "blocked",
+      ...(allowed ? {} : { note: "ASSET_HOST_NOT_ALLOWED" }),
+    };
+    candidates.push({ node: {}, asset });
+    order++;
+    if (!allowed) warnings.push(`asset:${asset.id}:host_not_allowed`);
+  }
   add("audio", selectorNodes(reader, adapter.rule.selectors.audio, scope));
   add("subtitle", selectorNodes(reader, adapter.rule.selectors.subtitles, scope), { language: true });
   add("file", selectorNodes(reader, adapter.rule.selectors.files, config.documentFiles ? undefined : scope));

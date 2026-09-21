@@ -59,7 +59,7 @@ Codex 使用其官方 MCP CLI 安装这个项目自己的命名条目：
 node "$BABEL_CLI" install-client-config codex
 ```
 
-期望状态是 `waiting_client_reload`。重新加载 Codex 后，确认工具列表出现八个 `babel_content_*` 工具，并实际调用 `babel_content_check`。只有运行时 ready、目标扩展实例 `connected` 且未暂停，才算接入完成；仅看到配置条目或进程 PID 不够。
+期望状态是 `waiting_client_reload`。重新加载 Codex 后，确认工具列表出现十个 MCP 工具，并实际调用 `babel_content_check`。其中九个是 `babel_content_*`，`babel_content_get_asr_guide` 只返回本地 ASR 指南。只有运行时 ready、目标扩展实例 `connected` 且未暂停，才算接入完成；仅看到配置条目或进程 PID 不够。
 
 Claude Code 需要独立授权，不能复用 Codex 的客户端身份：
 
@@ -92,6 +92,6 @@ node /absolute/path/to/babel-content-downloader-install/node_modules/babel-conte
 - YouTube 英文字幕已有一条真实 VTT 交付并通过哈希和 286 条字幕 cue 检查，但经历手工恢复，任务仍为 `partial / CONTENT_INCOMPLETE`。其他视频、语言及首次自动完成状态不能由该样本推断。
 - X 的已测单帖曾保存正确作者与可见正文，但仍有图片和页面准备问题；后续真实任务出现 `CONTENT_SCRIPT_TIMEOUT` 或 `ADAPTER_CHANGED`。Reddit 的真实页面被网络安全／登录门控阻断，尚无文件闭环。
 - 小红书现有真实样本为 404／App 门控，尚无公开样本闭环。微信公众号样本出现目标漂移，且浏览器访问受策略限制；不得绕过这些门槛或把无文件结果称为成功。
-- OCR、ASR、摘要、翻译、付费内容、私有内容和凭据导出不属于首版内置能力。页面、产物存在与任务 `succeeded` 是不同证据；遇到 `partial`、`blocked` 或 `failed` 应读取 `job_get` 的实际缺项后再决定是否恢复。
+- OCR、摘要、翻译、付费内容、私有内容和凭据导出不属于首版采集层内置能力。ASR 也不会由扩展或 MCP 自动触发；用户明确需要文字且已有字幕/正文不足时，Agent 可按独立的 [ASR 后处理 Spec](specs/Babel_Content_Downloader_ASR后处理移植Spec_2026-09-21.md) 执行本地转写。页面、产物存在与任务 `succeeded` 是不同证据；遇到 `partial`、`blocked` 或 `failed` 应读取 `job_get` 的实际缺项后再决定是否恢复。
 
 更完整的配置、停止与卸载方法见 [runtime-setup.md](runtime-setup.md) 和 [agent-setup.md](agent-setup.md)。

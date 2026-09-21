@@ -51,7 +51,7 @@
 | 只要附件 | 保存这条内容中支持下载的文件 | `files` |
 | 按主体自动选择 | 把这个链接保存下来 | `auto` |
 
-音频默认 M4A、视频默认 MP4；可明确指定 MP3／WAV／FLAC、MKV、来源画质、音视频片段、字幕语言或图片序号。保存的是来源内容，可以为观看和收听提取音频、合并音视频轨或转换格式；不内置 OCR、语音转写、摘要和翻译。
+音频默认 M4A、视频默认 MP4；可明确指定 MP3／WAV／FLAC、MKV、来源画质、音视频片段、字幕语言或图片序号。保存的是来源内容，可以为观看和收听提取音频、合并音视频轨或转换格式。采集请求不会自动触发 OCR、语音转写、摘要或翻译；用户明确需要文字且已有字幕/正文不足时，Agent 可按 [ASR 后处理 Spec](docs/specs/Babel_Content_Downloader_ASR后处理移植Spec_2026-09-21.md) 使用本地运行器生成转写。
 
 普通博客统一使用 HTTP + Mozilla Readability 提取当前页，必要时回退到浏览器读取，不逐个博客维护正文选择器。动态自媒体、论文和媒体内容使用对应适配器。只处理明确目标及支持的资源，不递归爬取整站。
 
@@ -161,7 +161,7 @@ node "$BABEL_CLI" install-client-config codex
 
 > 请调用 Babel Content Downloader 的 babel_content_check，检查本机运行时、浏览器连接和媒体依赖，告诉我哪些功能已经可以使用。
 
-应能找到八个 `babel_content_*` 工具。需要浏览器的任务应有目标扩展实例已连接且未暂停；普通 URL 正文检查可能返回 `ready_http`、`browser_required: false`，表示可先直接抓取，不保证随后网络请求一定成功。
+应能找到十个 MCP 工具，其中九个是 `babel_content_*`；`babel_content_get_asr_guide` 只提供 Agent-side ASR 指南，不执行转写。需要浏览器的任务应有目标扩展实例已连接且未暂停；普通 URL 正文检查可能返回 `ready_http`、`browser_required: false`，表示可先直接抓取，不保证随后网络请求一定成功。
 
 使用 Claude Code 时，在首次安装的第 3 步把 `codex` 改为 `claude`，然后执行 `install-client-config claude`。若是在已有运行时上增添客户端，按顺序执行：
 
@@ -322,6 +322,7 @@ BabelLibrary/
 
 | 工具 | 用途 |
 |---|---|
+| `babel_content_get_asr_guide` | 读取 Agent-side 本地 ASR 的模型、产物和安全契约；只读，不执行转写 |
 | `babel_content_check` | 检查运行时、目标路由、扩展和依赖；可传 `target` 与 `save_as` |
 | `babel_content_collect` | 创建单个明确 URL 或标签页任务 |
 | `babel_content_job_get` | 查询状态、缺项和分页文件 |
@@ -330,6 +331,8 @@ BabelLibrary/
 | `babel_content_jobs_list` | 查看当前客户端任务，支持 `offset`／`limit` |
 | `babel_content_browser_observe` | 观察指定 `job_id` 的页面 |
 | `babel_content_browser_act` | 在任务权限内执行允许的滚动、展开、静音播放等操作 |
+
+`update_mcp` 是生命周期工具，不会创建任务。它比较扩展、受管运行时和 MCP 的版本，并在需要时原地重启本项目拥有的运行时；配置、客户端授权、任务记录和已下载文件都会保留。更新后应先调用它，再调用 `babel_content_check` 确认 `version_control.compatible: true`。
 
 `save_as` 与 `include` 互斥。`include` 可选 `text`、`images`、`video`、`audio`、`subtitles`、`cover`、`files`。其他偏好与标签页示例见 [使用与测试手册](docs/usage-guide.md)。
 
@@ -360,11 +363,13 @@ BabelLibrary/
 ```sh
 node "$BABEL_CLI" runtime-stop
 npm install --prefix "$BABEL_INSTALL_ROOT" --omit=dev "$BABEL_RELEASE_DIR/babel-content-downloader-0.1.26.tgz"
-node "$BABEL_CLI" runtime-start
+node "$BABEL_CLI" runtime-update
 node "$BABEL_CLI" runtime-status
 ```
 
-在 Chrome 对同一个扩展目录点“重新加载”，再检查版本和连接。若扩展来自独立 ZIP，更新原解压目录；若改了目录导致 ID 改变，需要授权新的实际 ID 并重启运行时。不要重新运行 `add-client`。
+然后在 Chrome 对同一个扩展目录点“重新加载”，并让 Agent 调用 `update_mcp`。如果返回 `runtime_restarted` 或 `already_current`，再调用 `babel_content_check`，确认 `version_control.compatible: true`。如果是直接运行 stdio MCP，也只需用原配置重启该 MCP 主机一次；不需要重新运行 `add-client`，也不会清理配置、授权、任务记录或已下载文件。
+
+如果扩展来自独立 ZIP，更新原解压目录；若改了目录导致 ID 改变，需要授权新的实际 ID 并重启运行时。版本不一致时业务工具会先返回 `EXTENSION_UPDATE_REQUIRED` 或 `runtime_update_required`，不会在新旧协议之间继续执行任务。
 
 如果原来使用源码目录、手动 `serve` 或其他配置文件，应继续使用同一份配置和原入口，按 [运行时文档](docs/runtime-setup.md) 迁移；不能直接把上面的全新 TGZ 安装路径当成现有服务路径。
 

@@ -45,3 +45,5 @@ async function buildExtension(out, devFixtures) {
 
 await buildExtension("dist/extension", false);
 if (process.env.BABEL_DEV_FIXTURES === "1") await buildExtension("dist/extension-dev", true);
+const packageJson = JSON.parse(await readFile("package.json", "utf8"));
+await writeFile("dist/build-info.json", JSON.stringify({ version: packageJson.version, node: process.version }, null, 2) + "\n");

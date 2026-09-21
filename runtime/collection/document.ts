@@ -90,15 +90,53 @@ function localLink(root: string, path: string): string {
   return relative(root, path).split(sep).map(encodeURIComponent).join('/');
 }
 
+function sourceLink(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  try {
+    const parsed = new URL(value);
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return undefined;
+    // Keep the navigation target intact, but reject control characters before
+    // it reaches a Markdown destination. The result directory is owner-only;
+    // this link is intentionally a local access aid, not public metadata.
+    if (/[\u0000-\u001f\u007f]/.test(value)) return undefined;
+    return parsed.href;
+  } catch {
+    return undefined;
+  }
+}
+
+function sourceSection(snapshot: ContentSnapshot, accessUrl?: string): string[] {
+  const canonical = snapshot.canonical_url.replace(/[<>\r\n]/g, '');
+  const lines = [
+    '来源：<' + canonical + '>',
+    '',
+    '## 来源信息',
+    '',
+  ];
+  const direct = sourceLink(accessUrl);
+  if (direct && direct !== canonical) {
+    lines.push('- 本次访问链接：<' + direct + '>', '', '> 本次访问链接可能包含短期凭证，仅限本机结果使用，请勿转发或公开分享。');
+  } else {
+    lines.push('- 公开来源链接：见上方来源地址。');
+  }
+  lines.push('');
+  return lines;
+}
+
+export interface DocumentRenderOptions {
+  /** Raw URL held only in the current in-memory task request. */
+  accessUrl?: string;
+}
+
 /** Render source blocks only. Page copy is data, including copy that looks like an instruction. */
-export function renderDocument(snapshot: ContentSnapshot, artifacts: Artifact[], root: string): string {
+export function renderDocument(snapshot: ContentSnapshot, artifacts: Artifact[], root: string, options: DocumentRenderOptions = {}): string {
   const relatedAssetIds = new Set(snapshot.relations?.flatMap(relation => relation.assets.map(asset => asset.id)) ?? []);
   const mainArtifacts = artifacts.filter(artifact => !relatedAssetIds.has(artifact.source_asset_id ?? ''));
   const lines: string[] = [];
   if (snapshot.title) lines.push(`# ${text(snapshot.title)}`, '');
   if (snapshot.authors.length) lines.push(`作者：${snapshot.authors.map(text).join('、')}`, '');
   if (snapshot.published_at) lines.push(`发布时间：${text(snapshot.published_at)}`, '');
-  lines.push(`来源：<${snapshot.canonical_url.replace(/[<>\r\n]/g, '')}>`, '');
+  lines.push(...sourceSection(snapshot, options.accessUrl));
   const placed = new Set<string>();
   const linked = new Set<string>();
   for (const [index, block] of snapshot.blocks.entries()) {
@@ -141,13 +179,13 @@ export function renderDocument(snapshot: ContentSnapshot, artifacts: Artifact[],
 }
 
 /** Render a navigation document for a bundle that has verified files but no source prose. */
-export function renderBundleEntry(snapshot: ContentSnapshot, artifacts: Artifact[], root: string): string {
+export function renderBundleEntry(snapshot: ContentSnapshot, artifacts: Artifact[], root: string, options: DocumentRenderOptions = {}): string {
   const deliverables = artifacts.filter(artifact => !['entry', 'text', 'manifest', 'metadata'].includes(artifact.role));
   const lines: string[] = [];
   if (snapshot.title) lines.push(`# ${text(snapshot.title)}`, '');
   if (snapshot.authors.length) lines.push(`作者：${snapshot.authors.map(text).join('、')}`, '');
   if (snapshot.published_at) lines.push(`发布时间：${text(snapshot.published_at)}`, '');
-  lines.push(`来源：<${snapshot.canonical_url.replace(/[<>\r\n]/g, '')}>`, '', '本页是已验证资料的本地导航，不代表来源正文。', '', '## 已保存内容', '');
+  lines.push(...sourceSection(snapshot, options.accessUrl), '本页是已验证资料的本地导航，不代表来源正文。', '', '## 已保存内容', '');
   for (const artifact of deliverables) lines.push(savedLink(root, artifact, savedKind(artifact)), '');
   return lines.join('\n').trim() + '\n';
 }

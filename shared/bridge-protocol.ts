@@ -14,6 +14,8 @@ export interface ExtensionSession {
   session_id: string;
   token: string;
   poll_after_ms: number;
+  runtime_version?: string;
+  update_required?: boolean;
 }
 
 export type BrowserAction =
@@ -142,6 +144,8 @@ export interface ExtensionPollResult {
   paused: boolean;
   commands: BrowserCommand[];
   poll_after_ms: number;
+  runtime_version?: string;
+  update_required?: boolean;
 }
 
 /** POST /v1/bridge/register, /poll, /respond, /pause, /resume, /revoke. */

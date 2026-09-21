@@ -215,10 +215,10 @@ describe("managed macOS runtime service", () => {
       return { ready: false, reason: "unreachable" };
     };
     await expect(installRuntimeService(fixture.options)).rejects.toThrow("RUNTIME_SERVICE_HEALTH_FAILED_UNREACHABLE");
-    expect(fixture.clock.value).toBeLessThanOrEqual(5_000);
-    expect(probeTimeouts.length).toBeLessThanOrEqual(4);
-    expect(probeTimeouts.every((value) => value > 0 && value <= 5_000)).toBe(true);
-    const boundedLaunchCalls = fixture.launch.timeouts.filter((value): value is number => value !== undefined && value <= 5_000);
+    expect(fixture.clock.value).toBeLessThanOrEqual(15_000);
+    expect(probeTimeouts.length).toBeLessThanOrEqual(10);
+    expect(probeTimeouts.every((value) => value > 0 && value <= 15_000)).toBe(true);
+    const boundedLaunchCalls = fixture.launch.timeouts.filter((value): value is number => value !== undefined && value <= 15_000);
     expect(boundedLaunchCalls.length).toBeGreaterThan(0);
   });
 

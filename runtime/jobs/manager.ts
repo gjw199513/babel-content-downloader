@@ -10,13 +10,18 @@ import { requestedComponents } from "../collection/selection.js";
 
 const TERMINAL = new Set<JobStatus>(["succeeded", "partial", "failed", "cancelled"]);
 const ACTIVE = new Set<JobStatus>(["queued", "resolving", "collecting", "downloading", "finalizing", "verifying"]);
-const TRANSIENT = new Set(["RATE_LIMITED", "SERVICE_UNAVAILABLE", "NETWORK_TIMEOUT", "DNS_RESOLUTION_FAILED", "ENGINE_TIMEOUT", "BROWSER_TIMEOUT", "CONTENT_SCRIPT_UNAVAILABLE", "CONTENT_SCRIPT_TIMEOUT", "ADAPTER_CHANGED"]);
+const TRANSIENT = new Set(["RATE_LIMITED", "SERVICE_UNAVAILABLE", "NETWORK_TIMEOUT", "DNS_RESOLUTION_FAILED", "ENGINE_TIMEOUT", "BROWSER_TIMEOUT", "CONTENT_SCRIPT_UNAVAILABLE", "CONTENT_SCRIPT_TIMEOUT", "TASK_TAB_NOT_READY", "ADAPTER_CHANGED"]);
 const DAY_MS = 24 * 60 * 60_000;
 const MAX_AUTO_RETRIES = 2;
 // In one observed heavy page, early captures had no supported root while a
 // later observation at about 308 seconds did. These are bounded product-level
 // readiness checks, not a measured minimum page-ready time.
 const ADAPTER_READINESS_RETRY_DELAYS_MS = [60_000, 240_000] as const;
+// A background tab may have a content script that is still starting, or a
+// page may spend longer than one bridge command budget hydrating its DOM.
+// Give those browser-readiness errors two short, bounded windows before
+// leaving the task for manual inspection.
+const BROWSER_READINESS_RETRY_DELAYS_MS = [10_000, 30_000] as const;
 
 export interface JobPolicy {
   checkpointRetentionDays?: number;
@@ -188,6 +193,12 @@ export class JobManager {
     if (!error.retryable || !TRANSIENT.has(error.code) || (job.automatic_retries ?? 0) >= MAX_AUTO_RETRIES) return undefined;
     if (error.code === "ADAPTER_CHANGED" && error.retry_after_ms === undefined && this.policy.retryBaseMs === undefined) {
       const delay = ADAPTER_READINESS_RETRY_DELAYS_MS[job.automatic_retries ?? 0];
+      if (delay === undefined) return undefined;
+      return this.policy.maxRetryWaitMs === undefined || delay <= this.policy.maxRetryWaitMs ? delay : undefined;
+    }
+    if (["CONTENT_SCRIPT_UNAVAILABLE", "CONTENT_SCRIPT_TIMEOUT", "TASK_TAB_NOT_READY"].includes(error.code)
+      && error.retry_after_ms === undefined && this.policy.retryBaseMs === undefined) {
+      const delay = BROWSER_READINESS_RETRY_DELAYS_MS[job.automatic_retries ?? 0];
       if (delay === undefined) return undefined;
       return this.policy.maxRetryWaitMs === undefined || delay <= this.policy.maxRetryWaitMs ? delay : undefined;
     }

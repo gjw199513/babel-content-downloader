@@ -17,6 +17,27 @@ function ok(id: number): Response {
 }
 
 describe("stdio MCP proxy", () => {
+  it("can apply the owned runtime update locally without forwarding the lifecycle tool", async () => {
+    const output: string[] = [];
+    const forwarded: string[] = [];
+    await proxyMcpStdio({
+      config,
+      clientId: "alice",
+      lines: Readable.from([rpc(9, "update_mcp"), rpc(10, "babel_content_check")]),
+      write: (line) => { output.push(line); },
+      localRequest: async (message) => message.method === "tools/call" && (message.params as { name?: unknown }).name === "update_mcp"
+        ? JSON.stringify({ jsonrpc: "2.0", id: message.id, result: { content: [{ type: "text", text: JSON.stringify({ action: "already_current" }) }] } })
+        : undefined,
+      fetcher: async (_url, init) => {
+        forwarded.push(String(init.body));
+        return ok(10);
+      },
+    });
+    expect(output.map((line) => JSON.parse(line) as { id: number }).map((item) => item.id)).toEqual([9, 10]);
+    expect(forwarded).toHaveLength(1);
+    expect(JSON.parse(forwarded[0]!).params.name).toBe("babel_content_check");
+  });
+
   it("lets job_cancel finish while an earlier browser observation is pending", async () => {
     let releaseSlow!: (value: Response) => void;
     const slow = new Promise<Response>((resolve) => { releaseSlow = resolve; });

@@ -1,0 +1,223 @@
+{
+  "manifestDescription": {
+    "message": "로컬 AI 에이전트와 브라우저로 공개 글, 논문, 오디오, 동영상을 내 컴퓨터에 저장합니다."
+  },
+  "pageTitle": {
+    "message": "Babel Content Downloader · 로컬 설정"
+  },
+  "settingsPageTitle": { "message": "Babel Content Downloader · 설정" },
+  "localExtension": { "message": "로컬 콘텐츠 작업 공간" },
+  "openSettings": { "message": "설정" },
+  "manageConnection": { "message": "연결 관리" },
+  "technicalDetails": { "message": "기술 정보" },
+  "quickStart": { "message": "링크에서 바로 쓸 수 있는 로컬 파일까지" },
+  "stepChooseTitle": { "message": "사용 목적 선택" },
+  "stepChooseBody": { "message": "콘텐츠를 읽을지, 볼지, 오디오로 들을지 정합니다." },
+  "stepAskTitle": { "message": "명확하게 요청" },
+  "stepAskBody": { "message": "공개 URL, 필요한 형식, 승인된 저장 폴더를 로컬 Agent에 알려 줍니다." },
+  "stepUseTitle": { "message": "완성된 파일 열기" },
+  "stepUseBody": { "message": "최종 작업 상태를 기다린 뒤 저장된 문서, 미디어 또는 PDF를 사용합니다." },
+  "promptExamples": { "message": "바로 쓸 수 있는 요청" },
+  "commonRequests": { "message": "자주 쓰는 요청으로 시작" },
+  "articleLabel": { "message": "읽기" },
+  "audioLabel": { "message": "듣기" },
+  "videoLabel": { "message": "보기" },
+  "paperLabel": { "message": "연구" },
+  "subtitleLabel": { "message": "자막" },
+  "moreExamples": { "message": "추가 요청 예시와 사용 제한" },
+  "settingsNavLabel": { "message": "설정" },
+  "backToHome": { "message": "개요로 돌아가기" },
+  "settingsTitle": { "message": "연결 및 설정" },
+  "settingsIntro": { "message": "일상적인 사용은 개요 페이지에 두고 로컬 Agent, 런타임 연결, 진단 정보는 여기에서 설정합니다." },
+  "agentSetupLabel": { "message": "로컬 Agent" },
+  "advancedSettingsLabel": { "message": "런타임" },
+  "advancedSettings": { "message": "연결 관리" },
+  "disconnectTitle": { "message": "이 확장 프로그램 연결 해제" },
+  "disconnectBody": { "message": "로컬 페어링을 지우고 이 확장 프로그램이 소유한 작업 탭만 닫습니다." },
+  "language": {
+    "message": "언어"
+  },
+  "followBrowser": {
+    "message": "자동（브라우저 언어）"
+  },
+  "eyebrow": {
+    "message": "Babel Content Downloader · 로컬 확장 프로그램"
+  },
+  "heading": {
+    "message": "유용한 콘텐츠를 모아 내 컴퓨터에 저장하세요."
+  },
+  "intro": {
+    "message": "로컬 AI 에이전트로 공개 글, 논문, 동영상, 팟캐스트를 저장합니다. 읽거나 보거나 듣고 싶은 내용을 알려 주세요."
+  },
+  "connection": {
+    "message": "연결 상태"
+  },
+  "loading": {
+    "message": "불러오는 중…"
+  },
+  "extensionId": {
+    "message": "확장 프로그램 ID"
+  },
+  "version": {
+    "message": "버전"
+  },
+  "bridge": {
+    "message": "로컬 bridge"
+  },
+  "setup": {
+    "message": "설정 안내"
+  },
+  "setupIntro": {
+    "message": "확장 프로그램과 함께 호환되는 로컬 런타임을 설치해야 합니다. 관리형 백그라운드 실행은 현재 macOS만 지원합니다. 저장 폴더를 승인하고 로컬 토큰은 여기에 붙여 넣지 마세요."
+  },
+  "client": {
+    "message": "로컬 AI 에이전트"
+  },
+  "setupLabel": {
+    "message": "복사 가능한 설정 안내"
+  },
+  "copySetup": {
+    "message": "설정 안내 복사"
+  },
+  "copied": {
+    "message": "복사됨"
+  },
+  "controls": {
+    "message": "연결 관리"
+  },
+  "controlsIntro": {
+    "message": "일시 중지하면 폴링과 새 브라우저 작업이 멈춥니다. 연결 해제는 페어링을 삭제하고 이 확장 프로그램이 소유한 작업 탭만 닫습니다."
+  },
+  "connect": {
+    "message": "로컬 런타임 연결"
+  },
+  "pause": {
+    "message": "일시 중지"
+  },
+  "resume": {
+    "message": "다시 시작"
+  },
+  "revoke": {
+    "message": "연결 해제"
+  },
+  "footer": {
+    "message": "작업용 새 탭은 이동 전에 음소거됩니다. 기존 사용자 탭은 읽기 전용이며 이동, 재생, 음소거, 닫기를 수행하지 않습니다."
+  },
+  "paired": {
+    "message": "로컬 런타임에 연결됨"
+  },
+  "pairedDetail": {
+    "message": "로컬 에이전트가 명시한 대상만 처리합니다."
+  },
+  "connectionError": {
+    "message": "로컬 런타임 연결 문제"
+  },
+  "connectionErrorDetail": {
+    "message": "runtime-status를 확인한 후 다시 연결하고 콘텐츠를 수집하세요."
+  },
+  "paused": {
+    "message": "일시 중지됨"
+  },
+  "pausedDetail": {
+    "message": "런타임과 페어링되었지만 새 작업을 폴링하지 않습니다."
+  },
+  "waiting": {
+    "message": "로컬 승인 대기 중"
+  },
+  "waitingDetail": {
+    "message": "런타임을 시작하고 이 페이지에 표시된 실제 확장 프로그램 ID를 승인하세요."
+  },
+  "pairingNeeded": {
+    "message": "allow-extension으로 이 ID를 승인하고 런타임을 다시 시작한 뒤 로컬 런타임 연결을 선택하세요."
+  },
+  "controlFailed": {
+    "message": "연결 작업을 완료하지 못했습니다"
+  },
+  "readFailed": {
+    "message": "확장 프로그램 상태를 읽을 수 없습니다"
+  },
+  "copyFailed": {
+    "message": "클립보드 접근이 허용되지 않았습니다. 안내를 선택하여 직접 복사하세요."
+  },
+  "saveFailed": {
+    "message": "이 페이지의 언어는 변경되었지만 설정을 저장하지 못했습니다. 다시 시도해 주세요."
+  },
+  "errorHeading": {
+    "message": "기술 세부 정보"
+  },
+  "errorGeneric": {
+    "message": "작업에 실패했습니다. 런타임과 연결을 확인하고 문제를 제보할 때 오류 코드를 포함하세요."
+  },
+  "unreachable": {
+    "message": "로컬 런타임에 연결할 수 없습니다. 실행한 뒤 runtime-status를 확인하세요."
+  },
+  "unauthorized": {
+    "message": "페어링이 없거나 만료되었습니다. 실제 ID를 승인하고 다시 연결하세요."
+  },
+  "protocol": {
+    "message": "런타임 응답을 읽을 수 없습니다. 확장 프로그램과 런타임 버전을 확인하세요."
+  },
+  "missingState": {
+    "message": "확장 프로그램이 로컬 상태를 반환하지 않았습니다."
+  },
+  "prerequisite": {
+    "message": "사전 조건: 신뢰할 수 있는 배포처에서 호환되는 런타임 패키지 또는 빌드한 소스를 준비하세요. 확장 프로그램만으로는 사용할 수 없습니다. 다운로드 위치와 체크섬은 릴리스에 제공됩니다."
+  },
+  "installSteps": {
+    "message": "빌드한 소스 루트 또는 dist/가 있는 설치 패키지 루트에서 다음 macOS 명령을 실행하세요. /absolute/path/to/authorized/materials를 본인의 절대 저장 경로로 바꾸세요:"
+  },
+  "readyInstruction": {
+    "message": "runtime-status에 state=running, health=ready, restart_required=false가 표시될 때만 진행하세요. 이 페이지에서 로컬 런타임 연결을 선택한 뒤 MCP 항목을 설치하세요:"
+  },
+  "reloadInstruction": {
+    "message": "{client}를 다시 로드하고 babel_content_check를 호출하여 대상 브라우저가 연결되었고 일시 중지 상태가 아닌지 확인하세요. waiting_client_reload만으로는 연결 완료가 아닙니다."
+  },
+  "conflictInstruction": {
+    "message": "같은 이름의 기존 또는 수정된 MCP 항목은 덮어쓰지 않습니다. 다른 서비스 설정은 유지됩니다."
+  },
+  "secretInstruction": {
+    "message": "위의 실제 ID만 승인하세요. client token, cookies, 서명된 URL을 페이지나 채팅에 붙여 넣지 마세요."
+  },
+  "unsupported": {
+    "message": "시스템이 {platform}로 보고되었습니다. 관리형 실행은 현재 macOS 사용자 세션에만 구현되어 있습니다."
+  },
+  "unsupportedAdvice": {
+    "message": "이 시스템에서는 runtime-install을 실행하지 마세요. 포그라운드 serve를 설치 완료로 간주하지 마세요. 지원되는 관리형 실행 방식이 먼저 필요합니다."
+  },
+  "outputPlaceholder": {
+    "message": "/absolute/path/to/authorized/materials"
+  },
+  "unknownPlatform": {
+    "message": "알 수 없는 플랫폼"
+  },
+  "howTo": {
+    "message": "사용 방법"
+  },
+  "howToIntro": {
+    "message": "설정 후 에이전트에게 URL과 승인된 폴더를 알려 주세요. 예시의 URL과 경로를 실제 값으로 바꾸세요. 이 페이지는 연결 관리용이며 다운로드를 제출하는 곳이 아닙니다."
+  },
+  "usageArticle": {
+    "message": "공개 글 <URL>의 본문과 이미지를 <승인된 폴더>에 document로 저장하고 최종 상태와 파일 경로를 알려 주세요."
+  },
+  "usageAudio": {
+    "message": "동영상 팟캐스트 <URL>을 MP3로 <승인된 폴더>에 저장하세요. 작업 탭을 음소거하고 결과 파일을 자동 재생하지 마세요."
+  },
+  "usageVideo": {
+    "message": "동영상 <URL>의 60~120초 구간을 MP4로 <승인된 폴더>에 저장하고 실제 길이와 누락된 내용을 알려 주세요."
+  },
+  "usagePaper": {
+    "message": "arXiv 초록 페이지 <URL>을 원본 PDF가 포함된 bundle로 <승인된 폴더>에 저장하고 PDF 저장 여부를 알려 주세요."
+  },
+  "usageSubtitle": {
+    "message": "<동영상URL>의 기존 영어 자막을 <승인된 폴더>에 저장하세요. 음성 전사는 하지 말고 자막이 없으면 그대로 알려 주세요."
+  },
+  "usageResult": {
+    "message": "작업 결과를 기다린 뒤 content.md 또는 실제 미디어/PDF를 여세요. queued는 완료가 아니며 partial은 요청한 내용 중 누락이 있다는 뜻입니다. 동일한 작업 ID로 조회하거나 재개할 수 있습니다."
+  },
+  "usageLimits": {
+    "message": "무료 공개 콘텐츠만 수집합니다. 등록된 15개 소스 중 일부는 실험 단계입니다. X, Reddit, 샤오홍슈, WeChat 글, GitHub Markdown blob에는 알려진 제한이 있으며 자막 파일을 사용할 수 있어도 작업이 partial일 수 있습니다."
+  },
+  "privacyNote": {
+    "message": "확장 프로그램은 cookies, 방문 기록, 계정 자격 증명을 내보내지 않으며 게시, 댓글, 좋아요, 구매를 하지 않습니다."
+  }
+}

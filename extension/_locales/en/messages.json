@@ -1,0 +1,223 @@
+{
+  "manifestDescription": {
+    "message": "Save public articles, papers, audio and video locally through your AI agent and browser."
+  },
+  "pageTitle": {
+    "message": "Babel Content Downloader · Local setup"
+  },
+  "settingsPageTitle": { "message": "Babel Content Downloader · Settings" },
+  "localExtension": { "message": "Local content workspace" },
+  "openSettings": { "message": "Settings" },
+  "manageConnection": { "message": "Manage connection" },
+  "technicalDetails": { "message": "Technical details" },
+  "quickStart": { "message": "From a link to a usable local file" },
+  "stepChooseTitle": { "message": "Choose the outcome" },
+  "stepChooseBody": { "message": "Decide whether you want to read, watch or listen to the content." },
+  "stepAskTitle": { "message": "Send one clear request" },
+  "stepAskBody": { "message": "Give your local agent the public URL, desired format and authorized folder." },
+  "stepUseTitle": { "message": "Open the finished file" },
+  "stepUseBody": { "message": "Wait for the final job status, then use the saved document, media or PDF." },
+  "promptExamples": { "message": "Ready-to-use prompts" },
+  "commonRequests": { "message": "Start with a common request" },
+  "articleLabel": { "message": "Read" },
+  "audioLabel": { "message": "Listen" },
+  "videoLabel": { "message": "Watch" },
+  "paperLabel": { "message": "Research" },
+  "subtitleLabel": { "message": "Subtitles" },
+  "moreExamples": { "message": "More request examples and limits" },
+  "settingsNavLabel": { "message": "Settings" },
+  "backToHome": { "message": "Back to overview" },
+  "settingsTitle": { "message": "Connection and setup" },
+  "settingsIntro": { "message": "Keep routine use on the overview page. Configure the local agent, runtime connection and diagnostics here." },
+  "agentSetupLabel": { "message": "Local agent" },
+  "advancedSettingsLabel": { "message": "Runtime" },
+  "advancedSettings": { "message": "Connection controls" },
+  "disconnectTitle": { "message": "Disconnect this extension" },
+  "disconnectBody": { "message": "Removes the local pairing and closes only task tabs still owned by this extension." },
+  "language": {
+    "message": "Language"
+  },
+  "followBrowser": {
+    "message": "Automatic (browser language)"
+  },
+  "eyebrow": {
+    "message": "Babel Content Downloader · Local extension"
+  },
+  "heading": {
+    "message": "Collect useful content. Keep it locally."
+  },
+  "intro": {
+    "message": "Save public articles, papers, videos and podcasts with your local AI agent. Choose what you want to read, watch or listen to."
+  },
+  "connection": {
+    "message": "Connection"
+  },
+  "loading": {
+    "message": "Loading…"
+  },
+  "extensionId": {
+    "message": "Extension ID"
+  },
+  "version": {
+    "message": "Version"
+  },
+  "bridge": {
+    "message": "Local bridge"
+  },
+  "setup": {
+    "message": "Setup instructions"
+  },
+  "setupIntro": {
+    "message": "Install the matching local runtime as well as this extension. Managed background startup currently supports macOS only. Choose an authorized output folder; never paste local tokens here."
+  },
+  "client": {
+    "message": "Local AI agent"
+  },
+  "setupLabel": {
+    "message": "Copyable setup instructions"
+  },
+  "copySetup": {
+    "message": "Copy setup instructions"
+  },
+  "copied": {
+    "message": "Copied"
+  },
+  "controls": {
+    "message": "Connection controls"
+  },
+  "controlsIntro": {
+    "message": "Pause stops polling and new browser tasks. Revoke clears pairing and closes only tabs still owned by this extension."
+  },
+  "connect": {
+    "message": "Connect local runtime"
+  },
+  "pause": {
+    "message": "Pause"
+  },
+  "resume": {
+    "message": "Resume"
+  },
+  "revoke": {
+    "message": "Revoke connection"
+  },
+  "footer": {
+    "message": "Task-created tabs are muted before navigation. Existing user tabs are read-only: they are not navigated, played, muted or closed."
+  },
+  "paired": {
+    "message": "Connected to local runtime"
+  },
+  "pairedDetail": {
+    "message": "Only explicit targets submitted by your local agent will be handled."
+  },
+  "connectionError": {
+    "message": "Local runtime connection issue"
+  },
+  "connectionErrorDetail": {
+    "message": "Check runtime-status, then reconnect before collecting content."
+  },
+  "paused": {
+    "message": "Paused"
+  },
+  "pausedDetail": {
+    "message": "The runtime is paired, but the extension is not polling for new tasks."
+  },
+  "waiting": {
+    "message": "Waiting for local authorization"
+  },
+  "waitingDetail": {
+    "message": "Start the runtime and authorize the actual extension ID shown here."
+  },
+  "pairingNeeded": {
+    "message": "Authorize this extension ID with allow-extension, restart the runtime, then select Connect local runtime."
+  },
+  "controlFailed": {
+    "message": "Connection action did not complete"
+  },
+  "readFailed": {
+    "message": "Unable to read extension status"
+  },
+  "copyFailed": {
+    "message": "Clipboard access was denied. Select and copy the instructions manually."
+  },
+  "saveFailed": {
+    "message": "Your language changed for this page, but could not be saved. Try again."
+  },
+  "errorHeading": {
+    "message": "Technical details"
+  },
+  "errorGeneric": {
+    "message": "The operation failed. Check the runtime and connection; include the error code when reporting a problem."
+  },
+  "unreachable": {
+    "message": "The local runtime is unreachable. Start it and check runtime-status."
+  },
+  "unauthorized": {
+    "message": "The pairing is missing or expired. Authorize this extension ID and reconnect."
+  },
+  "protocol": {
+    "message": "The runtime response could not be read. Check that the runtime and extension versions match."
+  },
+  "missingState": {
+    "message": "The extension did not return its local status."
+  },
+  "prerequisite": {
+    "message": "Prerequisite: obtain a trusted, matching runtime package or source build. The extension alone is insufficient; download links and checksums are supplied with the release."
+  },
+  "installSteps": {
+    "message": "From the built source root or the installed package root containing dist/, run the following on macOS. Replace /absolute/path/to/authorized/materials with your own absolute output folder:"
+  },
+  "readyInstruction": {
+    "message": "Continue only when runtime-status shows state=running, health=ready and restart_required=false. Select Connect local runtime on this page, then install the MCP entry:"
+  },
+  "reloadInstruction": {
+    "message": "Reload {client}, call babel_content_check and confirm the target browser is connected and not paused. waiting_client_reload alone is not a successful connection."
+  },
+  "conflictInstruction": {
+    "message": "An existing or changed MCP entry with the same name will not be overwritten. Other services are left unchanged."
+  },
+  "secretInstruction": {
+    "message": "Authorize only the actual extension ID above. Never paste client tokens, cookies or signed URLs into this page or chat."
+  },
+  "unsupported": {
+    "message": "Your system reports {platform}. Managed startup is currently implemented only for macOS user sessions."
+  },
+  "unsupportedAdvice": {
+    "message": "Do not use runtime-install on this system or treat a foreground serve process as a finished installation. A supported managed startup path is required first."
+  },
+  "outputPlaceholder": {
+    "message": "/absolute/path/to/authorized/materials"
+  },
+  "unknownPlatform": {
+    "message": "Unknown platform"
+  },
+  "howTo": {
+    "message": "How to use"
+  },
+  "howToIntro": {
+    "message": "After setup, send a URL and your authorized folder to your agent. Use these examples with real URLs and paths; the extension page manages connection, not download submissions."
+  },
+  "usageArticle": {
+    "message": "Save this public article <URL> with its text and images to <authorized folder>. Use document and return the final status and file paths."
+  },
+  "usageAudio": {
+    "message": "Save this video podcast <URL> as MP3 to <authorized folder>. Keep the task tab muted and do not play the output automatically."
+  },
+  "usageVideo": {
+    "message": "Save seconds 60–120 of this video <URL> as MP4 to <authorized folder>. Report the actual duration and any missing content."
+  },
+  "usagePaper": {
+    "message": "Save this arXiv abstract page <URL> as a bundle with the original PDF to <authorized folder>. Report whether the PDF was saved."
+  },
+  "usageSubtitle": {
+    "message": "Save the existing English subtitles for <video URL> to <authorized folder>. Do not transcribe audio; report missing subtitles honestly."
+  },
+  "usageResult": {
+    "message": "Wait for the job result. Open content.md or the actual media/PDF. queued is not completion; partial means some requested content is missing. Ask your agent to inspect or resume the same job ID."
+  },
+  "usageLimits": {
+    "message": "Public, free content only. Some of the 15 registered sources remain experimental: X, Reddit, Xiaohongshu, WeChat articles and GitHub Markdown blob have known gaps. Subtitle files may be usable while their job remains partial."
+  },
+  "privacyNote": {
+    "message": "The extension does not export cookies, browsing history or account credentials, and does not publish, comment, like or purchase."
+  }
+}

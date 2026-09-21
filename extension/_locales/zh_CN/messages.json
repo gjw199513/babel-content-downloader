@@ -1,0 +1,223 @@
+{
+  "manifestDescription": {
+    "message": "通过本机 AI Agent 与浏览器，将公开文章、论文、音频和视频保存到本地。"
+  },
+  "pageTitle": {
+    "message": "Babel Content Downloader · 本机接入"
+  },
+  "settingsPageTitle": { "message": "Babel Content Downloader · 设置" },
+  "localExtension": { "message": "本机内容工作台" },
+  "openSettings": { "message": "设置" },
+  "manageConnection": { "message": "管理连接" },
+  "technicalDetails": { "message": "技术信息" },
+  "quickStart": { "message": "从一个链接到可直接使用的本地文件" },
+  "stepChooseTitle": { "message": "先说清楚用途" },
+  "stepChooseBody": { "message": "确定你是想阅读、观看，还是把内容保存成音频来收听。" },
+  "stepAskTitle": { "message": "发送一个明确请求" },
+  "stepAskBody": { "message": "把公开链接、所需格式和已授权的保存目录告诉本机 Agent。" },
+  "stepUseTitle": { "message": "打开最终文件" },
+  "stepUseBody": { "message": "等待任务最终状态，再使用保存好的文档、媒体或 PDF。" },
+  "promptExamples": { "message": "可直接使用的请求" },
+  "commonRequests": { "message": "从常见需求开始" },
+  "articleLabel": { "message": "阅读" },
+  "audioLabel": { "message": "收听" },
+  "videoLabel": { "message": "观看" },
+  "paperLabel": { "message": "研究" },
+  "subtitleLabel": { "message": "字幕" },
+  "moreExamples": { "message": "更多请求示例和使用限制" },
+  "settingsNavLabel": { "message": "设置" },
+  "backToHome": { "message": "返回概览" },
+  "settingsTitle": { "message": "连接与接入设置" },
+  "settingsIntro": { "message": "日常使用留在概览页；本机 Agent、运行时连接和诊断信息集中在这里配置。" },
+  "agentSetupLabel": { "message": "本机 Agent" },
+  "advancedSettingsLabel": { "message": "运行时" },
+  "advancedSettings": { "message": "连接控制" },
+  "disconnectTitle": { "message": "断开这个扩展" },
+  "disconnectBody": { "message": "清除本机配对，并且只关闭仍由本扩展拥有的任务标签页。" },
+  "language": {
+    "message": "语言"
+  },
+  "followBrowser": {
+    "message": "自动（跟随浏览器）"
+  },
+  "eyebrow": {
+    "message": "Babel Content Downloader · 本机扩展"
+  },
+  "heading": {
+    "message": "收集有用内容，保存到本地。"
+  },
+  "intro": {
+    "message": "让本机 AI Agent 保存公开文章、论文、视频和播客。告诉它你想阅读、观看还是收听即可。"
+  },
+  "connection": {
+    "message": "连接状态"
+  },
+  "loading": {
+    "message": "读取中…"
+  },
+  "extensionId": {
+    "message": "扩展 ID"
+  },
+  "version": {
+    "message": "版本"
+  },
+  "bridge": {
+    "message": "本机 bridge"
+  },
+  "setup": {
+    "message": "接入说明"
+  },
+  "setupIntro": {
+    "message": "除了扩展，还需安装匹配的本机运行时。目前托管后台启动仅支持 macOS。输出目录由你授权；不要在这里粘贴本机令牌。"
+  },
+  "client": {
+    "message": "本机 AI Agent"
+  },
+  "setupLabel": {
+    "message": "可复制的接入说明"
+  },
+  "copySetup": {
+    "message": "复制接入说明"
+  },
+  "copied": {
+    "message": "已复制"
+  },
+  "controls": {
+    "message": "连接控制"
+  },
+  "controlsIntro": {
+    "message": "暂停会停止轮询和新的浏览器任务；撤销会清除配对，并只关闭仍由本扩展拥有的任务页。"
+  },
+  "connect": {
+    "message": "连接本机运行时"
+  },
+  "pause": {
+    "message": "暂停"
+  },
+  "resume": {
+    "message": "恢复"
+  },
+  "revoke": {
+    "message": "撤销连接"
+  },
+  "footer": {
+    "message": "任务自建页面先静音再导航。已有用户标签页只读，不会被导航、播放、静音或关闭。"
+  },
+  "paired": {
+    "message": "已连接到本机运行时"
+  },
+  "pairedDetail": {
+    "message": "只处理本机 Agent 提交的明确目标。"
+  },
+  "connectionError": {
+    "message": "本机运行时连接异常"
+  },
+  "connectionErrorDetail": {
+    "message": "请检查 runtime-status，重新连接后再收集内容。"
+  },
+  "paused": {
+    "message": "已暂停"
+  },
+  "pausedDetail": {
+    "message": "运行时已配对，扩展暂不轮询新任务。"
+  },
+  "waiting": {
+    "message": "等待本机授权"
+  },
+  "waitingDetail": {
+    "message": "启动运行时，并授权此页显示的实际扩展 ID。"
+  },
+  "pairingNeeded": {
+    "message": "请用 allow-extension 授权此扩展 ID，重启运行时，再点击“连接本机运行时”。"
+  },
+  "controlFailed": {
+    "message": "连接操作未完成"
+  },
+  "readFailed": {
+    "message": "无法读取扩展状态"
+  },
+  "copyFailed": {
+    "message": "浏览器未允许复制，请手动选择并复制说明。"
+  },
+  "saveFailed": {
+    "message": "本页语言已切换，但无法保存偏好，请重试。"
+  },
+  "errorHeading": {
+    "message": "技术详情"
+  },
+  "errorGeneric": {
+    "message": "操作未完成，请检查运行时和连接；反馈时提供错误码。"
+  },
+  "unreachable": {
+    "message": "无法连接本机运行时，请启动并检查 runtime-status。"
+  },
+  "unauthorized": {
+    "message": "配对缺失或已过期，请授权实际扩展 ID 并重新连接。"
+  },
+  "protocol": {
+    "message": "无法读取运行时响应，请核对扩展和运行时版本。"
+  },
+  "missingState": {
+    "message": "扩展没有返回本机状态。"
+  },
+  "prerequisite": {
+    "message": "前提：已从可信来源取得匹配的运行时安装包或构建好的源码。只安装扩展不足以使用；下载地址和校验值随发行物提供。"
+  },
+  "installSteps": {
+    "message": "在构建后的源码根目录或包含 dist/ 的安装包根目录中，执行以下 macOS 命令。将 /absolute/path/to/authorized/materials 替换为自己的绝对输出目录："
+  },
+  "readyInstruction": {
+    "message": "仅当 runtime-status 显示 state=running、health=ready、restart_required=false 时继续。在此页点击“连接本机运行时”，再安装 MCP 条目："
+  },
+  "reloadInstruction": {
+    "message": "重载 {client}，调用 babel_content_check，确认目标浏览器已连接且未暂停。waiting_client_reload 本身不代表连接成功。"
+  },
+  "conflictInstruction": {
+    "message": "同名 MCP 条目已存在或被修改时不会被覆盖，其他服务配置保持原样。"
+  },
+  "secretInstruction": {
+    "message": "只授权上方实际扩展 ID。不要将 client token、cookies 或签名 URL 粘贴到页面或聊天中。"
+  },
+  "unsupported": {
+    "message": "系统报告为 {platform}。当前仅实现 macOS 用户会话的托管启动。"
+  },
+  "unsupportedAdvice": {
+    "message": "此系统请勿运行 runtime-install，也不要把前台 serve 当成安装完成；需要先有受支持的托管启动方式。"
+  },
+  "outputPlaceholder": {
+    "message": "/absolute/path/to/authorized/materials"
+  },
+  "unknownPlatform": {
+    "message": "未知平台"
+  },
+  "howTo": {
+    "message": "如何使用"
+  },
+  "howToIntro": {
+    "message": "接入后，在 Agent 对话中发送链接和授权目录。将以下示例替换为真实 URL 与路径；扩展页负责连接，不用于提交下载。"
+  },
+  "usageArticle": {
+    "message": "把这篇公开文章 <URL> 的正文和图片保存到 <授权目录>，按 document 保存，返回最终状态与文件路径。"
+  },
+  "usageAudio": {
+    "message": "把这个视频播客 <URL> 保存成 MP3，放到 <授权目录>。保持任务页静音，不自动播放导出文件。"
+  },
+  "usageVideo": {
+    "message": "把视频 <URL> 的第 60–120 秒保存为 MP4，放到 <授权目录>，报告实际时长和缺失项。"
+  },
+  "usagePaper": {
+    "message": "把这个 arXiv 摘要页 <URL> 按 bundle 保存到 <授权目录>，包含原版 PDF，并报告 PDF 是否保存成功。"
+  },
+  "usageSubtitle": {
+    "message": "保存 <视频URL> 已有的英文字幕到 <授权目录>，不做语音转写；没有字幕时如实报告。"
+  },
+  "usageResult": {
+    "message": "等待任务结果，再打开 content.md 或实际媒体/PDF。queued 不是完成，partial 表示请求内容有缺项。可让 Agent 查询或恢复同一任务 ID。"
+  },
+  "usageLimits": {
+    "message": "仅收集免费公开内容。15 个登记来源中部分仍为实验性：X、Reddit、小红书、公众号及 GitHub Markdown blob 存在已知缺口；字幕文件可用时任务也可能仍为 partial。"
+  },
+  "privacyNote": {
+    "message": "扩展不导出 cookies、浏览历史或账号凭据，不发布、评论、点赞或购买。"
+  }
+}

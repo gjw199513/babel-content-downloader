@@ -1,0 +1,9 @@
+node_modules/
+dist/
+releases/
+.data/
+coverage/
+.audit/
+.hallmark/
+*.log
+.DS_Store

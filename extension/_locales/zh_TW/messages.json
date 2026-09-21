@@ -1,0 +1,223 @@
+{
+  "manifestDescription": {
+    "message": "透過本機 AI Agent 與瀏覽器，將公開文章、論文、音訊和影片儲存到本機。"
+  },
+  "pageTitle": {
+    "message": "Babel Content Downloader · 本機設定"
+  },
+  "settingsPageTitle": { "message": "Babel Content Downloader · 設定" },
+  "localExtension": { "message": "本機內容工作台" },
+  "openSettings": { "message": "設定" },
+  "manageConnection": { "message": "管理連線" },
+  "technicalDetails": { "message": "技術資訊" },
+  "quickStart": { "message": "從一個連結到可直接使用的本機檔案" },
+  "stepChooseTitle": { "message": "先說明用途" },
+  "stepChooseBody": { "message": "決定你要閱讀、觀看，或將內容存成音訊來聆聽。" },
+  "stepAskTitle": { "message": "傳送一個明確請求" },
+  "stepAskBody": { "message": "將公開連結、所需格式和已授權的儲存目錄交給本機 Agent。" },
+  "stepUseTitle": { "message": "開啟完成檔案" },
+  "stepUseBody": { "message": "等待工作的最終狀態，再使用儲存好的文件、媒體或 PDF。" },
+  "promptExamples": { "message": "可直接使用的請求" },
+  "commonRequests": { "message": "從常見需求開始" },
+  "articleLabel": { "message": "閱讀" },
+  "audioLabel": { "message": "聆聽" },
+  "videoLabel": { "message": "觀看" },
+  "paperLabel": { "message": "研究" },
+  "subtitleLabel": { "message": "字幕" },
+  "moreExamples": { "message": "更多請求範例與使用限制" },
+  "settingsNavLabel": { "message": "設定" },
+  "backToHome": { "message": "返回概覽" },
+  "settingsTitle": { "message": "連線與接入設定" },
+  "settingsIntro": { "message": "日常使用留在概覽頁；本機 Agent、執行環境連線與診斷資訊集中在此設定。" },
+  "agentSetupLabel": { "message": "本機 Agent" },
+  "advancedSettingsLabel": { "message": "執行環境" },
+  "advancedSettings": { "message": "連線控制" },
+  "disconnectTitle": { "message": "中斷此擴充功能" },
+  "disconnectBody": { "message": "清除本機配對，並只關閉仍由此擴充功能擁有的工作分頁。" },
+  "language": {
+    "message": "語言"
+  },
+  "followBrowser": {
+    "message": "自動（跟隨瀏覽器）"
+  },
+  "eyebrow": {
+    "message": "Babel Content Downloader · 本機擴充功能"
+  },
+  "heading": {
+    "message": "收集實用內容，儲存到本機。"
+  },
+  "intro": {
+    "message": "讓本機 AI Agent 儲存公開文章、論文、影片和 Podcast。告訴它你想閱讀、觀看或聆聽即可。"
+  },
+  "connection": {
+    "message": "連線狀態"
+  },
+  "loading": {
+    "message": "讀取中…"
+  },
+  "extensionId": {
+    "message": "擴充功能 ID"
+  },
+  "version": {
+    "message": "版本"
+  },
+  "bridge": {
+    "message": "本機 bridge"
+  },
+  "setup": {
+    "message": "設定說明"
+  },
+  "setupIntro": {
+    "message": "除了擴充功能，還需安裝相符的本機執行環境。目前常駐背景服務僅支援 macOS。輸出資料夾由你授權；請勿在此貼上本機權杖。"
+  },
+  "client": {
+    "message": "本機 AI Agent"
+  },
+  "setupLabel": {
+    "message": "可複製的設定說明"
+  },
+  "copySetup": {
+    "message": "複製設定說明"
+  },
+  "copied": {
+    "message": "已複製"
+  },
+  "controls": {
+    "message": "連線控制"
+  },
+  "controlsIntro": {
+    "message": "暫停會停止輪詢及新的瀏覽器工作；撤銷會清除配對，並僅關閉仍由此擴充功能擁有的工作分頁。"
+  },
+  "connect": {
+    "message": "連接本機執行環境"
+  },
+  "pause": {
+    "message": "暫停"
+  },
+  "resume": {
+    "message": "繼續"
+  },
+  "revoke": {
+    "message": "撤銷連線"
+  },
+  "footer": {
+    "message": "工作建立的分頁會先靜音再導向目標。現有使用者分頁僅供讀取，不會被導向、播放、靜音或關閉。"
+  },
+  "paired": {
+    "message": "已連接本機執行環境"
+  },
+  "pairedDetail": {
+    "message": "僅處理本機 Agent 提交的明確目標。"
+  },
+  "connectionError": {
+    "message": "本機執行環境連線異常"
+  },
+  "connectionErrorDetail": {
+    "message": "請檢查 runtime-status，重新連線後再收集內容。"
+  },
+  "paused": {
+    "message": "已暫停"
+  },
+  "pausedDetail": {
+    "message": "執行環境已配對，目前不輪詢新工作。"
+  },
+  "waiting": {
+    "message": "等待本機授權"
+  },
+  "waitingDetail": {
+    "message": "啟動執行環境，並授權此頁顯示的實際擴充功能 ID。"
+  },
+  "pairingNeeded": {
+    "message": "請用 allow-extension 授權此 ID，重新啟動執行環境，再按「連接本機執行環境」。"
+  },
+  "controlFailed": {
+    "message": "連線操作未完成"
+  },
+  "readFailed": {
+    "message": "無法讀取擴充功能狀態"
+  },
+  "copyFailed": {
+    "message": "瀏覽器未允許複製，請手動選取並複製說明。"
+  },
+  "saveFailed": {
+    "message": "本頁語言已切換，但無法儲存偏好設定，請重試。"
+  },
+  "errorHeading": {
+    "message": "技術詳細資料"
+  },
+  "errorGeneric": {
+    "message": "操作未完成，請檢查執行環境與連線；回報時提供錯誤碼。"
+  },
+  "unreachable": {
+    "message": "無法連接本機執行環境，請啟動並檢查 runtime-status。"
+  },
+  "unauthorized": {
+    "message": "配對不存在或已過期，請授權實際 ID 後重新連線。"
+  },
+  "protocol": {
+    "message": "無法讀取執行環境回應，請確認擴充功能與執行環境版本相符。"
+  },
+  "missingState": {
+    "message": "擴充功能未傳回本機狀態。"
+  },
+  "prerequisite": {
+    "message": "前提：已從可信任來源取得相符的安裝套件或建置完成的原始碼。僅安裝擴充功能無法使用；下載位置與校驗值隨發行檔提供。"
+  },
+  "installSteps": {
+    "message": "在建置完成的原始碼根目錄或包含 dist/ 的安裝套件根目錄，執行以下 macOS 指令。將 /absolute/path/to/authorized/materials 換成自己的絕對輸出路徑："
+  },
+  "readyInstruction": {
+    "message": "僅在 runtime-status 顯示 state=running、health=ready、restart_required=false 時繼續。在此頁按「連接本機執行環境」，再安裝 MCP 項目："
+  },
+  "reloadInstruction": {
+    "message": "重新載入 {client}，呼叫 babel_content_check，確認目標瀏覽器已連線且未暫停。waiting_client_reload 本身不代表連線成功。"
+  },
+  "conflictInstruction": {
+    "message": "既有或曾被修改的同名 MCP 項目不會被覆寫，其他服務設定保持原樣。"
+  },
+  "secretInstruction": {
+    "message": "僅授權上方實際 ID。請勿將 client token、cookies 或含簽章的 URL 貼到頁面或聊天中。"
+  },
+  "unsupported": {
+    "message": "系統回報為 {platform}。目前僅實作 macOS 使用者階段的常駐背景服務。"
+  },
+  "unsupportedAdvice": {
+    "message": "此系統請勿執行 runtime-install，也不要將前景 serve 視為安裝完成；須先有受支援的背景服務啟動方式。"
+  },
+  "outputPlaceholder": {
+    "message": "/absolute/path/to/authorized/materials"
+  },
+  "unknownPlatform": {
+    "message": "未知平台"
+  },
+  "howTo": {
+    "message": "使用方式"
+  },
+  "howToIntro": {
+    "message": "設定完成後，在 Agent 對話中提供連結與授權資料夾。將以下範例換成真實 URL 與路徑；擴充功能頁面用於連線，不用於提交下載。"
+  },
+  "usageArticle": {
+    "message": "將這篇公開文章 <URL> 的內文和圖片儲存至 <授權資料夾>，使用 document，回報最終狀態與檔案路徑。"
+  },
+  "usageAudio": {
+    "message": "將這段影片 Podcast <URL> 儲存成 MP3，放入 <授權資料夾>。工作分頁保持靜音，不自動播放輸出檔案。"
+  },
+  "usageVideo": {
+    "message": "將影片 <URL> 的第 60–120 秒儲存成 MP4，放入 <授權資料夾>，回報實際長度與缺少的內容。"
+  },
+  "usagePaper": {
+    "message": "將此 arXiv 摘要頁 <URL> 以 bundle 儲存至 <授權資料夾>，包含原版 PDF，並回報 PDF 是否儲存成功。"
+  },
+  "usageSubtitle": {
+    "message": "將 <影片URL> 現有的英文字幕儲存至 <授權資料夾>，不要語音轉文字；沒有字幕時據實回報。"
+  },
+  "usageResult": {
+    "message": "等待工作結果，再開啟 content.md 或實際媒體/PDF。queued 不代表完成，partial 表示有缺項。可請 Agent 查詢或繼續相同工作 ID。"
+  },
+  "usageLimits": {
+    "message": "僅收集免費公開內容。15 個登錄來源中部分仍屬實驗性：X、Reddit、小紅書、微信公眾號及 GitHub Markdown blob 有已知缺口；字幕檔可用時工作仍可能為 partial。"
+  },
+  "privacyNote": {
+    "message": "擴充功能不匯出 cookies、瀏覽記錄或帳號憑證，不發佈、留言、按讚或購買。"
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "manifestDescription": {
+    "message": "ローカルの AI エージェントとブラウザーで、公開記事・論文・音声・動画を端末に保存します。"
+  },
+  "pageTitle": {
+    "message": "Babel Content Downloader · ローカル設定"
+  },
+  "settingsPageTitle": { "message": "Babel Content Downloader · 設定" },
+  "localExtension": { "message": "ローカルコンテンツワークスペース" },
+  "openSettings": { "message": "設定" },
+  "manageConnection": { "message": "接続を管理" },
+  "technicalDetails": { "message": "技術情報" },
+  "quickStart": { "message": "リンクから使えるローカルファイルへ" },
+  "stepChooseTitle": { "message": "用途を決める" },
+  "stepChooseBody": { "message": "内容を読む、見る、または音声で聴くのかを決めます。" },
+  "stepAskTitle": { "message": "明確に依頼する" },
+  "stepAskBody": { "message": "公開 URL、必要な形式、許可済みの保存先をローカル Agent に伝えます。" },
+  "stepUseTitle": { "message": "完成ファイルを開く" },
+  "stepUseBody": { "message": "最終ステータスを待ってから、保存済みの文書、メディア、PDF を使用します。" },
+  "promptExamples": { "message": "そのまま使える依頼" },
+  "commonRequests": { "message": "よくある依頼から始める" },
+  "articleLabel": { "message": "読む" },
+  "audioLabel": { "message": "聴く" },
+  "videoLabel": { "message": "見る" },
+  "paperLabel": { "message": "研究" },
+  "subtitleLabel": { "message": "字幕" },
+  "moreExamples": { "message": "その他の依頼例と利用上の制限" },
+  "settingsNavLabel": { "message": "設定" },
+  "backToHome": { "message": "概要に戻る" },
+  "settingsTitle": { "message": "接続とセットアップ" },
+  "settingsIntro": { "message": "日常の操作は概要ページで行い、ローカル Agent、ランタイム接続、診断情報はこちらで設定します。" },
+  "agentSetupLabel": { "message": "ローカル Agent" },
+  "advancedSettingsLabel": { "message": "ランタイム" },
+  "advancedSettings": { "message": "接続操作" },
+  "disconnectTitle": { "message": "この拡張機能を切断" },
+  "disconnectBody": { "message": "ローカルのペアリングを解除し、この拡張機能が所有しているタスク用タブだけを閉じます。" },
+  "language": {
+    "message": "言語"
+  },
+  "followBrowser": {
+    "message": "自動（ブラウザーの言語）"
+  },
+  "eyebrow": {
+    "message": "Babel Content Downloader · ローカル拡張機能"
+  },
+  "heading": {
+    "message": "役立つコンテンツを集め、手元に保存。"
+  },
+  "intro": {
+    "message": "ローカルの AI エージェントで公開記事、論文、動画、ポッドキャストを保存できます。読みたい、見たい、聴きたいものを伝えてください。"
+  },
+  "connection": {
+    "message": "接続状態"
+  },
+  "loading": {
+    "message": "読み込み中…"
+  },
+  "extensionId": {
+    "message": "拡張機能 ID"
+  },
+  "version": {
+    "message": "バージョン"
+  },
+  "bridge": {
+    "message": "ローカル bridge"
+  },
+  "setup": {
+    "message": "セットアップ"
+  },
+  "setupIntro": {
+    "message": "拡張機能に加え、対応するローカルランタイムが必要です。常駐サービスは現在 macOS のみ対応しています。保存先を許可し、トークンはここに貼り付けないでください。"
+  },
+  "client": {
+    "message": "ローカル AI エージェント"
+  },
+  "setupLabel": {
+    "message": "コピー可能なセットアップ手順"
+  },
+  "copySetup": {
+    "message": "手順をコピー"
+  },
+  "copied": {
+    "message": "コピーしました"
+  },
+  "controls": {
+    "message": "接続操作"
+  },
+  "controlsIntro": {
+    "message": "一時停止するとポーリングと新規ブラウザータスクが停止します。接続解除はペアリングを消去し、この拡張機能が所有するタブだけを閉じます。"
+  },
+  "connect": {
+    "message": "ローカルランタイムに接続"
+  },
+  "pause": {
+    "message": "一時停止"
+  },
+  "resume": {
+    "message": "再開"
+  },
+  "revoke": {
+    "message": "接続を解除"
+  },
+  "footer": {
+    "message": "タスク用の新規タブは移動前にミュートします。既存のユーザータブは読み取り専用で、移動・再生・ミュート・終了しません。"
+  },
+  "paired": {
+    "message": "ローカルランタイムに接続済み"
+  },
+  "pairedDetail": {
+    "message": "ローカルエージェントが明示した対象だけを処理します。"
+  },
+  "connectionError": {
+    "message": "ローカルランタイム接続エラー"
+  },
+  "connectionErrorDetail": {
+    "message": "runtime-status を確認してから、再接続して収集してください。"
+  },
+  "paused": {
+    "message": "一時停止中"
+  },
+  "pausedDetail": {
+    "message": "ペアリング済みですが、新規タスクをポーリングしていません。"
+  },
+  "waiting": {
+    "message": "ローカルの許可待ち"
+  },
+  "waitingDetail": {
+    "message": "ランタイムを起動し、このページに表示された実際の拡張機能 ID を許可してください。"
+  },
+  "pairingNeeded": {
+    "message": "allow-extension でこの ID を許可し、ランタイムを再起動してから「ローカルランタイムに接続」を選んでください。"
+  },
+  "controlFailed": {
+    "message": "接続操作を完了できませんでした"
+  },
+  "readFailed": {
+    "message": "拡張機能の状態を読み取れません"
+  },
+  "copyFailed": {
+    "message": "コピーが許可されていません。手順を選択して手動でコピーしてください。"
+  },
+  "saveFailed": {
+    "message": "このページの言語は変更されましたが、設定を保存できませんでした。もう一度お試しください。"
+  },
+  "errorHeading": {
+    "message": "技術情報"
+  },
+  "errorGeneric": {
+    "message": "操作に失敗しました。ランタイムと接続を確認し、問題の報告にはエラーコードを添えてください。"
+  },
+  "unreachable": {
+    "message": "ローカルランタイムに接続できません。起動して runtime-status を確認してください。"
+  },
+  "unauthorized": {
+    "message": "ペアリングがないか期限切れです。実際の ID を許可し、再接続してください。"
+  },
+  "protocol": {
+    "message": "ランタイムの応答を読み取れません。拡張機能とランタイムのバージョンを確認してください。"
+  },
+  "missingState": {
+    "message": "拡張機能から状態が返されませんでした。"
+  },
+  "prerequisite": {
+    "message": "前提：信頼できる配布元から対応するランタイムパッケージ、またはビルド済みソースを入手してください。拡張機能だけでは利用できません。ダウンロード先とチェックサムはリリースに付属します。"
+  },
+  "installSteps": {
+    "message": "ビルド済みソースのルート、または dist/ を含むインストール先のパッケージルートで、次の macOS コマンドを実行します。/absolute/path/to/authorized/materials は自分の絶対保存先パスに置き換えてください："
+  },
+  "readyInstruction": {
+    "message": "runtime-status が state=running、health=ready、restart_required=false の場合のみ続行してください。このページで接続を選び、MCP エントリを追加します："
+  },
+  "reloadInstruction": {
+    "message": "{client} を再読み込みして babel_content_check を呼び出し、対象ブラウザーが接続済みで一時停止中でないことを確認します。waiting_client_reload だけでは接続完了ではありません。"
+  },
+  "conflictInstruction": {
+    "message": "同名の既存または変更済み MCP エントリは上書きしません。他のサービス設定は変更しません。"
+  },
+  "secretInstruction": {
+    "message": "上記の実際の ID だけを許可してください。client token、cookies、署名付き URL をページやチャットに貼り付けないでください。"
+  },
+  "unsupported": {
+    "message": "システムは {platform} と報告しています。常駐サービスは現在 macOS のユーザーセッションのみ実装されています。"
+  },
+  "unsupportedAdvice": {
+    "message": "このシステムでは runtime-install を実行しないでください。フォアグラウンドの serve はインストール完了を意味しません。対応する常駐サービスが必要です。"
+  },
+  "outputPlaceholder": {
+    "message": "/absolute/path/to/authorized/materials"
+  },
+  "unknownPlatform": {
+    "message": "不明なプラットフォーム"
+  },
+  "howTo": {
+    "message": "使い方"
+  },
+  "howToIntro": {
+    "message": "設定後、エージェントに URL と許可した保存先を伝えます。例の URL とパスを置き換えてください。このページは接続管理用で、ダウンロードの入力欄ではありません。"
+  },
+  "usageArticle": {
+    "message": "公開記事 <URL> の本文と画像を <許可済みフォルダー> に document として保存し、最終状態とファイルパスを報告してください。"
+  },
+  "usageAudio": {
+    "message": "動画ポッドキャスト <URL> を MP3 にして <許可済みフォルダー> に保存してください。タスクのタブはミュートし、保存後も自動再生しないでください。"
+  },
+  "usageVideo": {
+    "message": "動画 <URL> の 60～120 秒を MP4 で <許可済みフォルダー> に保存し、実際の長さと不足内容を報告してください。"
+  },
+  "usagePaper": {
+    "message": "arXiv の概要ページ <URL> を元の PDF を含む bundle として <許可済みフォルダー> に保存し、PDF の保存結果を報告してください。"
+  },
+  "usageSubtitle": {
+    "message": "<動画URL> にある英語字幕を <許可済みフォルダー> に保存してください。音声の文字起こしはせず、字幕がなければその旨を報告してください。"
+  },
+  "usageResult": {
+    "message": "処理結果を待ち、content.md または実際のメディア/PDF を開きます。queued は完了ではなく、partial は不足があります。同じタスク ID の確認や再開を依頼できます。"
+  },
+  "usageLimits": {
+    "message": "無料の公開内容のみが対象です。登録済み 15 ソースの一部は実験段階です。X、Reddit、小紅書、WeChat 記事、GitHub Markdown blob には既知の制限があり、字幕ファイルが使えてもタスクが partial の場合があります。"
+  },
+  "privacyNote": {
+    "message": "拡張機能は cookies、閲覧履歴、アカウント認証情報をエクスポートせず、投稿・コメント・いいね・購入を行いません。"
+  }
+}

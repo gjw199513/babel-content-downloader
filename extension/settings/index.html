@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Babel Content Downloader</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <nav class="topbar" aria-label="Babel Content Downloader">
+        <a class="brand" href="../welcome/index.html">
+          <img src="../icons/icon-128.png" alt="" width="42" height="42">
+          <span class="brand-copy">
+            <span class="brand-name">Babel Content Downloader</span>
+            <span class="brand-subtitle" data-i18n="settingsNavLabel"></span>
+          </span>
+        </a>
+        <div class="topbar-actions">
+          <label class="language-field" for="language"><span data-i18n="language"></span>
+            <select id="language">
+              <option value="auto" data-i18n="followBrowser"></option>
+              <option value="en">English</option>
+              <option value="zh-CN">简体中文</option>
+              <option value="zh-TW">繁體中文</option>
+              <option value="ja">日本語</option>
+              <option value="ko">한국어</option>
+            </select>
+          </label>
+          <a class="text-link" href="../welcome/index.html" data-i18n="backToHome"></a>
+        </div>
+      </nav>
+
+      <main>
+        <header class="settings-heading">
+          <p class="eyebrow" data-i18n="settingsNavLabel"></p>
+          <h1 data-i18n="settingsTitle"></h1>
+          <p data-i18n="settingsIntro"></p>
+        </header>
+
+        <div class="settings-grid">
+          <section class="setup-panel panel" aria-labelledby="setup-heading">
+            <p class="section-label" data-i18n="agentSetupLabel"></p>
+            <h2 id="setup-heading" data-i18n="setup"></h2>
+            <p class="section-intro" data-i18n="setupIntro"></p>
+            <label class="client-choice" for="setup-client"><span data-i18n="client"></span>
+              <select id="setup-client"><option value="codex">Codex</option><option value="claude">Claude Code</option></select>
+            </label>
+            <pre id="setup-copy" data-i18n-label="setupLabel"></pre>
+            <div class="button-row">
+              <button id="copy-setup" type="button" data-i18n="copySetup"></button>
+            </div>
+          </section>
+
+          <div class="settings-rail">
+            <section class="connection-panel panel" id="status-panel" aria-labelledby="connection-heading">
+              <div class="status-heading">
+                <span class="status-dot" aria-hidden="true"></span>
+                <p class="section-label" id="connection-heading" data-i18n="connection"></p>
+              </div>
+              <p class="status" id="connection-status" role="status" aria-live="polite"></p>
+              <p class="status-detail" id="connection-detail"></p>
+              <p id="notice" class="notice" role="status" hidden></p>
+              <div class="button-row connection-actions">
+                <button id="connect" type="button" data-i18n="connect"></button>
+                <button class="secondary" id="pause" type="button" data-i18n="pause"></button>
+                <button class="secondary" id="resume" type="button" data-i18n="resume"></button>
+              </div>
+            </section>
+
+            <section class="advanced-panel panel" aria-labelledby="advanced-heading">
+              <p class="section-label" data-i18n="advancedSettingsLabel"></p>
+              <h2 id="advanced-heading" data-i18n="advancedSettings"></h2>
+              <p class="section-intro" data-i18n="controlsIntro"></p>
+              <details>
+                <summary data-i18n="technicalDetails"></summary>
+                <dl>
+                  <div><dt data-i18n="extensionId"></dt><dd><code id="extension-id">—</code></dd></div>
+                  <div><dt data-i18n="version"></dt><dd><code id="extension-version">—</code></dd></div>
+                  <div><dt data-i18n="bridge"></dt><dd><code id="bridge-url">http://127.0.0.1:4318</code></dd></div>
+                </dl>
+              </details>
+              <details class="error-details" id="error-details" hidden>
+                <summary data-i18n="errorHeading"></summary>
+                <pre id="raw-error"></pre>
+              </details>
+              <div class="danger-zone">
+                <div>
+                  <h3 data-i18n="disconnectTitle"></h3>
+                  <p data-i18n="disconnectBody"></p>
+                </div>
+                <button class="danger" id="revoke" type="button" data-i18n="revoke"></button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="index.js"></script>
+  </body>
+</html>

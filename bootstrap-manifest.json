@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "template": true,
+  "product": {
+    "name": "Babel Content Downloader",
+    "package": "babel-content-downloader",
+    "mcp_server": "babel-content-downloader"
+  },
+  "release": {
+    "version": null,
+    "source_url": null,
+    "archive_sha256": null,
+    "published": false,
+    "verification_required": true
+  },
+  "requirements": {
+    "node": ">=22.13.0",
+    "chromium": ">=120",
+    "same_computer_runtime_browser_agent": true
+  },
+  "entrypoints": {
+    "cli": "dist/bootstrap/cli.js",
+    "extension_directory": "dist/extension",
+    "agent_setup": "docs/agent-setup.md"
+  },
+  "managed_runtime": {
+    "darwin": {
+      "implementation": "launchd-user-agent",
+      "label": "com.babel-content-downloader.runtime",
+      "status": "implemented_fixture_validated_real_install_pending"
+    },
+    "win32": {
+      "status": "unsupported"
+    },
+    "linux": {
+      "status": "unsupported"
+    }
+  },
+  "client_validation": {
+    "codex": "read_only_preflight_only_real_install_pending",
+    "claude": "isolated_fixture_only_real_cli_pending"
+  }
+}

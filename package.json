@@ -1,0 +1,93 @@
+{
+  "name": "babel-content-downloader",
+  "version": "0.1.26",
+  "description": "Open-source, local-first content downloader for AI agents. Save public articles, papers, images, videos, podcasts and subtitles through MCP and a Chrome extension.",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/gjw199513/babel-content-downloader#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gjw199513/babel-content-downloader.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gjw199513/babel-content-downloader/issues"
+  },
+  "keywords": [
+    "ai-agent",
+    "mcp",
+    "chrome-extension",
+    "content-downloader",
+    "local-first",
+    "web-archiver",
+    "yt-dlp",
+    "ffmpeg",
+    "typescript"
+  ],
+  "type": "module",
+  "files": [
+    "dist/adapters/",
+    "dist/bootstrap/",
+    "dist/extension/",
+    "dist/runtime/",
+    "dist/shared/",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY.md",
+    "CHANGELOG.md",
+    "docs/acceptance-matrix.md",
+    "docs/content-completeness-plan.md",
+    "docs/browser-validation-e2e.md",
+    "docs/browser-validation-initial.md",
+    "docs/implementation-status.md",
+    "docs/unified-web-validation.md",
+    "docs/media-validation.md",
+    "docs/package-validation.md",
+    "docs/platform-status.md",
+    "docs/runtime-setup.md",
+    "docs/specs/",
+    "docs/agent-setup.md",
+    "bootstrap-manifest.json",
+    "docs/first-release.md",
+    "docs/usage-guide.md",
+    "docs/publishing.md",
+    "docs/extension-install.md",
+    "docs/release-roadmap.md",
+    "docs/brand/",
+    "docs/i18n/"
+  ],
+  "bin": {
+    "babel-content-downloader": "./dist/bootstrap/cli.js"
+  },
+  "scripts": {
+    "build": "node scripts/clean-runtime-build.mjs && tsc -p tsconfig.build.json && npm run build:extension",
+    "build:extension": "node ./scripts/build-extension.mjs",
+    "typecheck": "tsc --noEmit",
+    "lsp": "node scripts/lsp-check.mjs",
+    "test": "vitest run",
+    "dev": "tsx bootstrap/cli.ts serve",
+    "mcp": "tsx bootstrap/cli.ts mcp"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/node": "^2.0.0",
+    "@modelcontextprotocol/server": "^2.0.0",
+    "@mozilla/readability": "^0.6.0",
+    "image-size": "^2.0.0",
+    "jsdom": "^29.1.1",
+    "pdfjs-dist": "6.3.289",
+    "saxes": "6.0.0",
+    "sharp": "0.35.4",
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.3.0",
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.28.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.9.0",
+    "vitest": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}

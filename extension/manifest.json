@@ -1,0 +1,110 @@
+{
+  "manifest_version": 3,
+  "name": "Babel Content Downloader",
+  "short_name": "Babel Downloader",
+  "version": "0.1.26",
+  "description": "__MSG_manifestDescription__",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvUOQ6pp07/QFaEyCT+/kMY/hiWq14j3maSNoMwPuhySp/gxEuwCX+Cx0UEaUoX50hn+GjCP7veaxfLqKD5nhw+8kMXHlZ9LW8pmwc0X7xAGnx5G0Kwl1H5Te96MyTpbOz0Gat/+BjYmcolfVyKh/suYf7ZZpIR7/KEkX/0ea9rOw4KsA9yZQaSeuDjUm8R4GhEe5gS9BStgqOof4s1Ns5RF6dCU5bEecYXzTVkGLfWx8yvxttWLOYv0MM4LusapJKP2edHHz/0u3Td4pJEB0tP5V8yYjhcKYmigUZGxrQBC7mE4dFRoZUNMEiSov8/rbnVGlB3AICthLE5BdSjgOowIDAQAB",
+  "minimum_chrome_version": "120",
+  "permissions": [
+    "alarms",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:4318/*",
+    "https://www.xiaohongshu.com/*",
+    "https://xiaohongshu.com/*",
+    "https://www.bilibili.com/*",
+    "https://bilibili.com/*",
+    "https://mp.weixin.qq.com/*",
+    "https://www.zhihu.com/*",
+    "https://zhihu.com/*",
+    "https://zhuanlan.zhihu.com/*",
+    "https://www.youtube.com/*",
+    "https://youtube.com/*",
+    "https://m.youtube.com/*",
+    "https://x.com/*",
+    "https://www.x.com/*",
+    "https://twitter.com/*",
+    "https://www.twitter.com/*",
+    "https://mobile.twitter.com/*",
+    "https://www.reddit.com/*",
+    "https://reddit.com/*",
+    "https://old.reddit.com/*",
+    "https://medium.com/*",
+    "https://*.medium.com/*",
+    "https://substack.com/*",
+    "https://*.substack.com/*",
+    "https://github.com/*",
+    "https://huggingface.co/*",
+    "https://arxiv.org/*",
+    "https://openai.com/*",
+    "https://www.openai.com/*",
+    "https://anthropic.com/*",
+    "https://www.anthropic.com/*",
+    "https://deepmind.google/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.xiaohongshu.com/*",
+        "https://xiaohongshu.com/*",
+        "https://www.bilibili.com/*",
+        "https://bilibili.com/*",
+        "https://mp.weixin.qq.com/*",
+        "https://www.zhihu.com/*",
+        "https://zhihu.com/*",
+        "https://zhuanlan.zhihu.com/*",
+        "https://www.youtube.com/*",
+        "https://youtube.com/*",
+        "https://m.youtube.com/*",
+        "https://x.com/*",
+        "https://www.x.com/*",
+        "https://twitter.com/*",
+        "https://www.twitter.com/*",
+        "https://mobile.twitter.com/*",
+        "https://www.reddit.com/*",
+        "https://reddit.com/*",
+        "https://old.reddit.com/*",
+        "https://medium.com/*",
+        "https://*.medium.com/*",
+        "https://substack.com/*",
+        "https://*.substack.com/*",
+        "https://github.com/*",
+        "https://huggingface.co/*",
+        "https://arxiv.org/*",
+        "https://openai.com/*",
+        "https://www.openai.com/*",
+        "https://anthropic.com/*",
+        "https://www.anthropic.com/*",
+        "https://deepmind.google/*"
+      ],
+      "js": [
+        "content/content-script.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": false,
+      "match_about_blank": false
+    }
+  ],
+  "action": {
+    "default_title": "Babel Content Downloader",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "default_locale": "en",
+  "options_page": "settings/index.html"
+}
